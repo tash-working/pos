@@ -66,6 +66,7 @@ function ExtraItems({ getCount, category, item }) {
 
             <h4 className="mb-2 line-clamp-1 text-lg font-semibold tracking-tight text-gray-900">
               {item.size[0].size}
+              
             </h4> {/* Bottom Section */}
             <div>
               {/* Price */}
