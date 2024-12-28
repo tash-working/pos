@@ -59,15 +59,23 @@ function Cart() {
           <style>
             body {
               font-family: Arial, sans-serif;
-              margin: 20px;
+              margin: 0;
+              padding: 0;
+              display: flex;
+              justify-content: center;
+              align-items: flex-start;
+              height: auto;
+              background-color: #f4f4f4;
             }
             .order-summary {
+              width: 100%;
               max-width: 600px;
               margin: 0 auto;
               background-color: white;
               padding: 20px;
               border-radius: 8px;
               box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+              page-break-before: always;
             }
             .order-summary h2 {
               text-align: center;
@@ -89,11 +97,66 @@ function Cart() {
             .order-summary p {
               margin: 0;
             }
+            .order-summary .items-table {
+              width: 100%;
+              border-collapse: collapse;
+              margin-bottom: 20px;
+            }
+            .order-summary .items-table th,
+            .order-summary .items-table td {
+              padding: 8px;
+              border: 1px solid #ddd;
+              text-align: left;
+            }
+            .order-summary .items-table th {
+              background-color: #f0f0f0;
+            }
+            @media print {
+              body {
+                height: auto;
+                background-color: white;
+                margin: 0;
+                padding: 0;
+              }
+              .order-summary {
+                max-width: 100%;
+                page-break-after: always;
+              }
+            }
           </style>
         </head>
         <body>
           <div class="order-summary">
-            <h2>Order Summary</h2>
+            <h2>MIDENUS POS</h2>
+            <h3>Order Summary</h3>
+
+            <!-- Ordered Items Table -->
+            <table class="items-table">
+              <thead>
+                <tr>
+                  <th>Item</th>
+                  <th>Quantity</th>
+                  <th>Price</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${cartItems
+                  .map(
+                    (item) => `
+                  <tr>
+                    <td>${item.name}</td>
+                    <td>${item.quantity}</td>
+                    <td>${item.price}৳</td>
+                    <td>${(item.quantity * item.price).toFixed(2)}৳</td>
+                  </tr>
+                `
+                  )
+                  .join("")}
+              </tbody>
+            </table>
+
+            <hr />
             <div class="flex">
               <p>Net Total:</p>
               <p class="font-bold text-indigo-600">${netTotal}৳</p>
