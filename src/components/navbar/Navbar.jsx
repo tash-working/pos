@@ -108,16 +108,6 @@ function Navbar({ count }) {
             className="flex items-center space-x-3 
             transform hover:scale-105 transition-transform"
           >
-            <motion.img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHevWCw9OwglL5vNOf4UovVnsyRf4pC2dmWg&s"
-              alt="Restaurant Logo"
-              className="h-10 w-10 rounded-full object-cover"
-              initial={{ rotate: 0 }}
-              whileHover={{ 
-                rotate: 360,
-                transition: { duration: 0.5 }
-              }}
-            />
             <span className="text-xl font-bold text-white">
               Vetvet Bite
             </span>
