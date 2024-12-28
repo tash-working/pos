@@ -129,7 +129,8 @@ function Cart() {
         </head>
         <body>
           <div class="order-summary">
-            <h2>Order Summary</h2>
+            <h2>MIDENUS POS</h2>
+            <h3>Order Summary</h3>
 
             <!-- Ordered Items Table -->
             <table class="items-table">
