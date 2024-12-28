@@ -27,12 +27,16 @@ function Cart() {
   const handleChange = (event) => {
     if (event.target.name === "discount") {
       console.log(event.target.value);
-      
+
       setDiscount(event.target.value);
-      setGrossTotal(subtotal + Math.round(subtotal * 0.05)-Math.round(subtotal * (discount / 100)));
+      setGrossTotal(
+        netTotal +
+          Math.round(netTotal * 0.05) -
+          Math.round(netTotal * (discount / 100))
+      );
     }
     console.log(event.target.name);
-    
+
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
   };
@@ -210,7 +214,10 @@ function Cart() {
             <hr />
             <div class="flex font-bold">
               <p>Gross Total:</p>
-              <p>${(netTotal + Math.round(netTotal * 0.05)).toFixed(2)-Math.round(netTotal * (discount / 100))}৳(Paid)</p>
+              <p>${
+                (netTotal + Math.round(netTotal * 0.05)).toFixed(2) -
+                Math.round(netTotal * (discount / 100))
+              }৳(Paid)</p>
             </div>
             <div class="flex font-bold">
               <p>MIDENUS POS</p>
@@ -247,7 +254,14 @@ function Cart() {
     setTimeout(() => setShowConfetti(false), 5000);
 
     // Reset form data
-    setFormData({ phoneNumber: "", type: "", table: "",  bill: "",discount: "" });
+    setFormData({
+      phoneNumber: "",
+      type: "",
+      table: "",
+      bill: "",
+      discount: "",
+    });
+    setDiscount(0);
   };
 
   // Increment quantity of a specific order item
@@ -490,20 +504,23 @@ function Cart() {
                 <div className="flex justify-between items-center">
                   <p className="text-gray-700">Discount -</p>
                   <p className="text-gray-600">
-                    {discount}%- {(netTotal * (discount / 100))}৳
+                    {discount}%- {netTotal * (discount / 100)}৳
                   </p>
                 </div>
                 <div className="flex justify-between items-center">
                   <p className="text-gray-700">Auto Round:</p>
                   <p className="text-gray-600">
-                    {Math.round(netTotal * 0.05)}৳
+                    {Math.round(netTotal * (discount / 100))}৳
                   </p>
                 </div>
                 <hr className="border-gray-300" />
                 <div className="flex justify-between items-center font-bold">
                   <p className="text-gray-700">Gross Total:</p>
                   <p className="text-lg text-green-600">
-                    {(netTotal + Math.round(netTotal * 0.05))-(netTotal * (discount / 100))}৳
+                    {netTotal +
+                      Math.round(netTotal * 0.05) -
+                      Math.round(netTotal * (discount / 100))}
+                    ৳
                   </p>
                 </div>
               </div>
