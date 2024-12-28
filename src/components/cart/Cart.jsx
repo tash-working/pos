@@ -129,9 +129,13 @@ function Cart() {
         </head>
         <body>
           <div class="order-summary">
-            <h2>MIDENUS POS</h2>
-            <h3>Order Summary</h3>
-            <h3>Order Time: ${date_time}</h3>
+            <h2>VELVET BITES</h2>
+            <h5>House NO-52, Road-1, Sector-3, Uttara, Dhaka-1230</h5>
+            <h5>+880 1334-738387</h5>
+            <h3>Guest Bill, Table No: ${formData.table}</h3>
+            <h4>Bill Type: ${formData.type}</h4>
+            <h4>Guest phone: ${formData.phoneNumber}</h4>
+            <h4>Order Time: ${date_time}</h4>
 
             <!-- Ordered Items Table -->
             <table class="items-table">

@@ -108,7 +108,7 @@ function Navbar({ count }) {
             <span className="text-xl font-bold text-white">
               MIDENUS
               <span className="text-m font-bold text-white sub text-sm">
-                POS v0.1.1
+                POS v0.1.2
               </span>
             </span>
           </Link>
