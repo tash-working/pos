@@ -52,80 +52,93 @@ function Cart() {
     };
     console.log(orderData); // Log order data for debugging
 
-
     const printWindow = window.open("", "", "width=800,height=600");
     printWindow.document.write(`
       <html>
         <head>
           <title>Order Summary</title>
           <style>
-            body {
-              font-family: Arial, sans-serif;
-              margin: 0;
-              padding: 0;
-              display: flex;
-              justify-content: center;
-              align-items: flex-start;
-              height: auto;
-              background-color: #f4f4f4;
-            }
-            .order-summary {
-              width: 100%;
-              max-width: 600px;
-              margin: 0 auto;
-              background-color: white;
-              padding: 20px;
-              border-radius: 8px;
-              box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-              page-break-before: always;
-            }
-            .order-summary h2 {
-              text-align: center;
-              font-size: 1.5rem;
-              margin-bottom: 20px;
-            }
-            .order-summary .flex {
-              display: flex;
-              justify-content: space-between;
-              margin-bottom: 10px;
-            }
-            .order-summary .font-bold {
-              font-weight: bold;
-            }
-            .order-summary hr {
-              border: 1px solid #ddd;
-              margin: 20px 0;
-            }
-            .order-summary p {
-              margin: 0;
-            }
-            .order-summary .items-table {
-              width: 100%;
-              border-collapse: collapse;
-              margin-bottom: 20px;
-            }
-            .order-summary .items-table th,
-            .order-summary .items-table td {
-              padding: 8px;
-              border: 1px solid #ddd;
-              text-align: left;
-            }
-            .order-summary .items-table th {
-              background-color: #f0f0f0;
-            }
-            @media print {
-              body {
-                height: auto;
-                background-color: white;
-                margin: 0;
-                padding: 0;
-              }
-              .order-summary {
-                max-width: 100%;
-                page-break-after: always;
-              }
-            }
-          </style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: auto;
+    background-color: #f4f4f4;
+  }
+
+  .order-summary {
+    width: 100%;
+    max-width: 500px; /* Reduced width to save space */
+    margin: 0 auto;
+    background-color: white;
+    padding: 10px; /* Reduced padding */
+    border-radius: 6px; /* Slightly smaller border radius */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    page-break-before: always;
+  }
+
+  .order-summary h2 {
+    text-align: center;
+    font-size: 1.2rem; /* Reduced font size */
+    margin-bottom: 10px; /* Reduced margin */
+  }
+
+  .order-summary .flex {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px; /* Reduced margin */
+  }
+
+  .order-summary .font-bold {
+    font-weight: bold;
+    font-size: 0.9rem; /* Reduced font size */
+  }
+
+  .order-summary hr {
+    border: 1px solid #ddd;
+    margin: 10px 0; /* Reduced margin */
+  }
+
+  .order-summary p {
+    margin: 0;
+    font-size: 0.9rem; /* Reduced font size */
+  }
+
+  .order-summary .items-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 10px; /* Reduced margin */
+  }
+
+  .order-summary .items-table th,
+  .order-summary .items-table td {
+    padding: 4px 6px; /* Reduced padding */
+    border: 1px solid #ddd;
+    text-align: left;
+    font-size: 0.85rem; /* Reduced font size */
+  }
+
+  .order-summary .items-table th {
+    background-color: #f0f0f0;
+  }
+
+  @media print {
+    body {
+      height: auto;
+      background-color: white;
+      margin: 0;
+      padding: 0;
+    }
+    .order-summary {
+      max-width: 100%;
+      page-break-after: always;
+    }
+  }
+</style>
+
         </head>
         <body>
           <div class="order-summary">
@@ -148,7 +161,8 @@ function Cart() {
                 </tr>
               </thead>
               <tbody>
-                ${orders.map(
+                ${orders
+                  .map(
                     (item) => `
                   <tr>
                     <td>${item.name}</td>
@@ -179,7 +193,7 @@ function Cart() {
             <hr />
             <div class="flex font-bold">
               <p>Gross Total:</p>
-              <p>${(netTotal + Math.round(netTotal * 0.05)).toFixed(2)}৳</p>
+              <p>${(netTotal + Math.round(netTotal * 0.05)).toFixed(2)}৳(Paid)</p>
             </div>
             <div class="flex font-bold">
               <p>MIDENUS POS</p>
@@ -190,7 +204,7 @@ function Cart() {
       </html>
     `);
     printWindow.document.close();
-    
+
     // Wait for the document to load and then invoke print
     printWindow.onload = function () {
       printWindow.print(); // Trigger the print dialog
@@ -430,36 +444,40 @@ function Cart() {
           </div>
           {/* Order summary section */}
           <div>
-          <div>
-      <div className="flex-none max-w-md bg-white rounded-lg shadow-lg p-6 space-y-4">
-        <h2 className="text-xl font-semibold text-gray-800 text-center">
-          Order Summary
-        </h2>
-        <div className="flex justify-between items-center">
-          <p className="text-gray-700">Net Total:</p>
-          <p className="font-bold text-lg text-indigo-600">{netTotal}৳</p>
-        </div>
-        <hr className="border-gray-300" />
-        <div className="flex justify-between items-center">
-          <p className="text-gray-700">VAT - 5.00%:</p>
-          <p className="text-gray-600">{(netTotal * 0.05).toFixed(2)}৳</p>
-        </div>
-        <div className="flex justify-between items-center">
-          <p className="text-gray-700">Auto Round:</p>
-          <p className="text-gray-600">{Math.round(netTotal * 0.05)}৳</p>
-        </div>
-        <hr className="border-gray-300" />
-        <div className="flex justify-between items-center font-bold">
-          <p className="text-gray-700">Gross Total:</p>
-          <p className="text-lg text-green-600">
-            {(netTotal + Math.round(netTotal * 0.05)).toFixed(2)}৳
-          </p>
-        </div>
-      </div>
-      </div>
-
-     
-    </div>
+            <div>
+              <div className="flex-none max-w-md bg-white rounded-lg shadow-lg p-6 space-y-4">
+                <h2 className="text-xl font-semibold text-gray-800 text-center">
+                  Order Summary
+                </h2>
+                <div className="flex justify-between items-center">
+                  <p className="text-gray-700">Net Total:</p>
+                  <p className="font-bold text-lg text-indigo-600">
+                    {netTotal}৳
+                  </p>
+                </div>
+                <hr className="border-gray-300" />
+                <div className="flex justify-between items-center">
+                  <p className="text-gray-700">VAT - 5.00%:</p>
+                  <p className="text-gray-600">
+                    {(netTotal * 0.05).toFixed(2)}৳
+                  </p>
+                </div>
+                <div className="flex justify-between items-center">
+                  <p className="text-gray-700">Auto Round:</p>
+                  <p className="text-gray-600">
+                    {Math.round(netTotal * 0.05)}৳
+                  </p>
+                </div>
+                <hr className="border-gray-300" />
+                <div className="flex justify-between items-center font-bold">
+                  <p className="text-gray-700">Gross Total:</p>
+                  <p className="text-lg text-green-600">
+                    {(netTotal + Math.round(netTotal * 0.05)).toFixed(2)}৳
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
           {/* Extras section */}
           <div className="mx-auto px-4 sm:px-6 lg:px-8 mt-8">
             <div className="grid grid-cols-1 gap-6 sm:gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-1">
