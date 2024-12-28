@@ -51,6 +51,8 @@ function Cart() {
       date_time,
     };
     console.log(orderData); // Log order data for debugging
+
+
     const printWindow = window.open("", "", "width=800,height=600");
     printWindow.document.write(`
       <html>
@@ -185,6 +187,7 @@ function Cart() {
       printWindow.print(); // Trigger the print dialog
       printWindow.close(); // Close the print window after printing
     };
+
     // Reset orders and update localStorage
     const updatedOrders = [];
     setOrders(updatedOrders);
@@ -419,9 +422,7 @@ function Cart() {
           {/* Order summary section */}
           <div>
           <div>
-          <div>
       <div className="flex-none max-w-md bg-white rounded-lg shadow-lg p-6 space-y-4">
-      
         <h2 className="text-xl font-semibold text-gray-800 text-center">
           Order Summary
         </h2>
@@ -445,10 +446,10 @@ function Cart() {
             {(netTotal + Math.round(netTotal * 0.05)).toFixed(2)}৳
           </p>
         </div>
-      
+      </div>
       </div>
 
-      
+     
     </div>
           {/* Extras section */}
           <div className="mx-auto px-4 sm:px-6 lg:px-8 mt-8">
