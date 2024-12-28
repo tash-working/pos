@@ -181,6 +181,10 @@ function Cart() {
               <p>Gross Total:</p>
               <p>${(netTotal + Math.round(netTotal * 0.05)).toFixed(2)}৳</p>
             </div>
+            <div class="flex font-bold">
+              <p>MIDENUS POS</p>
+              <p>www.midenus.com</p>
+            </div>
           </div>
         </body>
       </html>
