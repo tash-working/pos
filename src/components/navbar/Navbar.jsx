@@ -1,12 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
-import { 
-  FaHome, 
-  FaShoppingCart, 
-  FaBars, 
-  FaTimes 
-} from 'react-icons/fa';
-import { motion, AnimatePresence } from 'framer-motion';
+import { FaHome, FaShoppingCart, FaBars, FaTimes } from "react-icons/fa";
+import { motion, AnimatePresence } from "framer-motion";
 import PosCart from "../cart/PosCart";
 
 function Navbar({ count }) {
@@ -32,28 +27,28 @@ function Navbar({ count }) {
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
-    document.body.style.overflow = isMobileMenuOpen ? 'unset' : 'hidden';
+    document.body.style.overflow = isMobileMenuOpen ? "unset" : "hidden";
   };
 
   const handleMenuItemClick = () => {
     setIsMobileMenuOpen(false);
-    document.body.style.overflow = 'unset';
+    document.body.style.overflow = "unset";
   };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
-        isMobileMenuOpen && 
-        mobileMenuRef.current && 
+        isMobileMenuOpen &&
+        mobileMenuRef.current &&
         !mobileMenuRef.current.contains(event.target)
       ) {
         toggleMobileMenu();
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isMobileMenuOpen]);
 
@@ -63,27 +58,27 @@ function Navbar({ count }) {
     prevOrderCount.current = count;
 
     return (
-      <motion.div 
+      <motion.div
         key={count}
-        initial={{ 
-          scale: 0.5, 
+        initial={{
+          scale: 0.5,
           opacity: 0,
-          y: isIncrease ? 20 : -20
+          y: isIncrease ? 20 : -20,
         }}
-        animate={{ 
-          scale: 1, 
+        animate={{
+          scale: 1,
           opacity: 1,
-          y: 0
+          y: 0,
         }}
-        exit={{ 
-          scale: 0.5, 
+        exit={{
+          scale: 0.5,
           opacity: 0,
-          y: isIncrease ? -20 : 20
+          y: isIncrease ? -20 : 20,
         }}
         transition={{
           type: "spring",
           stiffness: 300,
-          damping: 15
+          damping: 15,
         }}
         className="absolute -top-3 -right-2
         bg-gradient-to-br bg-gradient-to-br from- pink-500 to-red-500
@@ -98,18 +93,23 @@ function Navbar({ count }) {
   };
 
   return (
-    <nav className="bg-gradient-to-r from-fuchsia-700 to-purple-900 
-    text-white  shadow-lg">
+    <nav
+      className="bg-gradient-to-r from-fuchsia-700 to-purple-900 
+    text-white  shadow-lg"
+    >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Logo Section */}
-          <Link 
-            to="/" 
+          <Link
+            to="/"
             className="flex items-center space-x-3 
             transform hover:scale-105 transition-transform"
           >
             <span className="text-xl font-bold text-white">
-              Vetvet Bite
+              MIDENUS
+              <span className="text-m font-bold text-white sub text-sm">
+                POS
+              </span>
             </span>
           </Link>
 
@@ -127,21 +127,19 @@ function Navbar({ count }) {
             </Link>
 
             {/* Cart Link with Enhanced Counter */}
-            <Link 
-              to="/cart" 
+            <Link
+              to="/cart"
               className="flex items-center space-x-2 
               text-sm font-medium text-white 
               hover:text-fuchsia-200 transition-colors group relative"
             >
               <div className="relative flex items-center">
-                <FaShoppingCart 
-                  className="mr-2 group-hover:scale-110 transition" 
+                <FaShoppingCart
+                  className="mr-2 group-hover:scale-110 transition"
                   size={20}
                 />
                 <AnimatePresence>
-                  {orderCount > 0 && (
-                    <CartBadge count={orderCount} />
-                  )}
+                  {orderCount > 0 && <CartBadge count={orderCount} />}
                 </AnimatePresence>
                 <span className="ml-1">Cart</span>
               </div>
@@ -150,7 +148,7 @@ function Navbar({ count }) {
 
           {/* Mobile Menu Toggle */}
           <div className="md:hidden">
-            <motion.button 
+            <motion.button
               onClick={toggleMobileMenu}
               whileTap={{ scale: 0.9 }}
               className="text-white focus:outline-none"
@@ -166,19 +164,19 @@ function Navbar({ count }) {
           {isMobileMenuOpen && (
             <motion.div
               ref={mobileMenuRef}
-              initial={{ opacity: 0, x: '100%' }}
+              initial={{ opacity: 0, x: "100%" }}
               animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: '100%' }}
-              transition={{ 
+              exit={{ opacity: 0, x: "100%" }}
+              transition={{
                 type: "tween",
-                duration: 0.3
+                duration: 0.3,
               }}
               className="fixed inset-0 bg-purple-900 bg-opacity-95 
               md:hidden z-50 flex flex-col items-center 
               justify-center space-y-6 text-center"
             >
               {/* Close Button */}
-              <motion.button 
+              <motion.button
                 onClick={toggleMobileMenu}
                 whileTap={{ scale: 0.9 }}
                 className="absolute top-6 right-6 
@@ -204,7 +202,8 @@ function Navbar({ count }) {
                     border-b border-white/20"
                   >
                     <FaHome />
-                    <span>Home</span> </Link>
+                    <span>Home</span>{" "}
+                  </Link>
                 </motion.div>
 
                 <motion.div
@@ -221,9 +220,7 @@ function Navbar({ count }) {
                     <div className="relative flex items-center">
                       <FaShoppingCart className="mr-3" size={24} />
                       <AnimatePresence>
-                        {orderCount > 0 && (
-                          <CartBadge count={orderCount} />
-                        )}
+                        {orderCount > 0 && <CartBadge count={orderCount} />}
                       </AnimatePresence>
                       <span>Cart</span>
                     </div>
