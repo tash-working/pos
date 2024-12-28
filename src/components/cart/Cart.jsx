@@ -51,6 +51,78 @@ function Cart() {
       date_time,
     };
     console.log(orderData); // Log order data for debugging
+    const printWindow = window.open("", "", "width=800,height=600");
+    printWindow.document.write(`
+      <html>
+        <head>
+          <title>Order Summary</title>
+          <style>
+            body {
+              font-family: Arial, sans-serif;
+              margin: 20px;
+            }
+            .order-summary {
+              max-width: 600px;
+              margin: 0 auto;
+              background-color: white;
+              padding: 20px;
+              border-radius: 8px;
+              box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+            .order-summary h2 {
+              text-align: center;
+              font-size: 1.5rem;
+              margin-bottom: 20px;
+            }
+            .order-summary .flex {
+              display: flex;
+              justify-content: space-between;
+              margin-bottom: 10px;
+            }
+            .order-summary .font-bold {
+              font-weight: bold;
+            }
+            .order-summary hr {
+              border: 1px solid #ddd;
+              margin: 20px 0;
+            }
+            .order-summary p {
+              margin: 0;
+            }
+          </style>
+        </head>
+        <body>
+          <div class="order-summary">
+            <h2>Order Summary</h2>
+            <div class="flex">
+              <p>Net Total:</p>
+              <p class="font-bold text-indigo-600">${netTotal}৳</p>
+            </div>
+            <hr />
+            <div class="flex">
+              <p>VAT - 5.00%:</p>
+              <p>${(netTotal * 0.05).toFixed(2)}৳</p>
+            </div>
+            <div class="flex">
+              <p>Auto Round:</p>
+              <p>${Math.round(netTotal * 0.05)}৳</p>
+            </div>
+            <hr />
+            <div class="flex font-bold">
+              <p>Gross Total:</p>
+              <p>${(netTotal + Math.round(netTotal * 0.05)).toFixed(2)}৳</p>
+            </div>
+          </div>
+        </body>
+      </html>
+    `);
+    printWindow.document.close();
+    
+    // Wait for the document to load and then invoke print
+    printWindow.onload = function () {
+      printWindow.print(); // Trigger the print dialog
+      printWindow.close(); // Close the print window after printing
+    };
 
     // Reset orders and update localStorage
     const updatedOrders = [];
@@ -284,31 +356,37 @@ function Cart() {
             ))}
           </div>
           {/* Order summary section */}
-          <div className="flex-none max-w-md bg-white rounded-lg shadow-lg p-6 space-y-4">
-            <h2 className="text-xl font-semibold text-gray-800 text-center">
-              Order Summary
-            </h2>
-            <div className="flex justify-between items-center">
-              <p className="text-gray-700">Net Total:</p>
-              <p className="font-bold text-lg text-indigo-600">{netTotal}৳</p>
-            </div>
-            <hr className="border-gray-300" />
-            <div className="flex justify-between items-center">
-              <p className="text-gray-700">VAT - 5.00%:</p>
-              <p className="text-gray-600">{(netTotal * 0.05).toFixed(2)}৳</p>
-            </div>
-            <div className="flex justify-between items-center">
-              <p className="text-gray-700">Auto Round:</p>
-              <p className="text-gray-600">{Math.round(netTotal * 0.05)}৳</p>
-            </div>
-            <hr className="border-gray-300" />
-            <div className="flex justify-between items-center font-bold">
-              <p className="text-gray-700">Gross Total:</p>
-              <p className="text-lg text-green-600">
-                {(netTotal + Math.round(netTotal * 0.05)).toFixed(2)}৳
-              </p>
-            </div>
-          </div>
+          <div>
+          <div>
+      <div className="flex-none max-w-md bg-white rounded-lg shadow-lg p-6 space-y-4">
+        <h2 className="text-xl font-semibold text-gray-800 text-center">
+          Order Summary
+        </h2>
+        <div className="flex justify-between items-center">
+          <p className="text-gray-700">Net Total:</p>
+          <p className="font-bold text-lg text-indigo-600">{netTotal}৳</p>
+        </div>
+        <hr className="border-gray-300" />
+        <div className="flex justify-between items-center">
+          <p className="text-gray-700">VAT - 5.00%:</p>
+          <p className="text-gray-600">{(netTotal * 0.05).toFixed(2)}৳</p>
+        </div>
+        <div className="flex justify-between items-center">
+          <p className="text-gray-700">Auto Round:</p>
+          <p className="text-gray-600">{Math.round(netTotal * 0.05)}৳</p>
+        </div>
+        <hr className="border-gray-300" />
+        <div className="flex justify-between items-center font-bold">
+          <p className="text-gray-700">Gross Total:</p>
+          <p className="text-lg text-green-600">
+            {(netTotal + Math.round(netTotal * 0.05)).toFixed(2)}৳
+          </p>
+        </div>
+      </div>
+      </div>
+
+     
+    </div>
           {/* Extras section */}
           <div className="mx-auto px-4 sm:px-6 lg:px-8 mt-8">
             <div className="grid grid-cols-1 gap-6 sm:gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-1">
