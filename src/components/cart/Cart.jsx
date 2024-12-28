@@ -131,6 +131,7 @@ function Cart() {
           <div class="order-summary">
             <h2>MIDENUS POS</h2>
             <h3>Order Summary</h3>
+            <h3>Order Time: ${date_time}</h3>
 
             <!-- Ordered Items Table -->
             <table class="items-table">

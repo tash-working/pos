@@ -108,7 +108,7 @@ function Navbar({ count }) {
             <span className="text-xl font-bold text-white">
               MIDENUS
               <span className="text-m font-bold text-white sub text-sm">
-                POS v0.1
+                POS v0.1.1
               </span>
             </span>
           </Link>
@@ -116,19 +116,11 @@ function Navbar({ count }) {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-6">
             {/* Home Link */}
-            <Link
-              to="/"
-              className="flex items-center space-x-2 
-              text-sm font-medium text-white 
-              hover:text-fuchsia-200 transition-colors group"
-            >
-              <FaHome className="group-hover:scale-110 transition" />
-              <span>Home</span>
-            </Link>
+            
 
             {/* Cart Link with Enhanced Counter */}
-            <Link
-              to="/cart"
+            <div
+             
               className="flex items-center space-x-2 
               text-sm font-medium text-white 
               hover:text-fuchsia-200 transition-colors group relative"
@@ -143,7 +135,7 @@ function Navbar({ count }) {
                 </AnimatePresence>
                 <span className="ml-1">Cart</span>
               </div>
-            </Link>
+            </div>
           </div>
 
           {/* Mobile Menu Toggle */}
