@@ -11,6 +11,7 @@ function Cart() {
   const [sentOrders, setSentOrders] = useState([]);
   const [count, setCount] = useState(0);
   const [netTotal, setNetTotal] = useState(0);
+  const [discount, setDiscount] = useState(0);
   const [grossTotal, setGrossTotal] = useState(0);
   const [menu, setMenu] = useState([]);
   const [showConfetti, setShowConfetti] = useState(false);
@@ -18,10 +19,19 @@ function Cart() {
     phoneNumber: "",
     type: "",
     table: "",
+    bill: "",
+    discount: "",
   });
 
   // Handle input changes in the form
   const handleChange = (event) => {
+    if (event.target.name === "discount") {
+      console.log(event.target.value);
+      
+      setDiscount(event.target.value);
+    }
+    console.log(event.target.name);
+    
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
   };
@@ -146,7 +156,7 @@ function Cart() {
             <h5>House NO-52, Road-1, Sector-3, Uttara, Dhaka-1230</h5>
             <h5>+880 1334-738387</h5>
             <h3>Guest Bill, Table No: ${formData.table}</h3>
-            <h4>Bill Type: ${formData.type}</h4>
+            <h4>Bill Type: ${formData.bill}</h4>
             <h4>Guest phone: ${formData.phoneNumber}</h4>
             <h4>Order Time: ${date_time}</h4>
 
@@ -191,9 +201,14 @@ function Cart() {
               <p>${Math.round(netTotal * 0.05)}৳</p>
             </div>
             <hr />
+            <div class="flex">
+              <p>Discount:</p>
+              <p>${discount}% - ${netTotal * (discount / 100)}৳</p>
+            </div>
+            <hr />
             <div class="flex font-bold">
               <p>Gross Total:</p>
-              <p>${(netTotal + Math.round(netTotal * 0.05)).toFixed(2)}৳(Paid)</p>
+              <p>${(netTotal + Math.round(netTotal * 0.05)).toFixed(2)-(netTotal * (discount / 100))}৳(Paid)</p>
             </div>
             <div class="flex font-bold">
               <p>MIDENUS POS</p>
@@ -230,7 +245,7 @@ function Cart() {
     setTimeout(() => setShowConfetti(false), 5000);
 
     // Reset form data
-    setFormData({ phoneNumber: "", type: "", table: "" });
+    setFormData({ phoneNumber: "", type: "", table: "",  bill: "",discount: "" });
   };
 
   // Increment quantity of a specific order item
@@ -469,10 +484,24 @@ function Cart() {
                   </p>
                 </div>
                 <hr className="border-gray-300" />
+                <hr className="border-gray-300" />
+                <div className="flex justify-between items-center">
+                  <p className="text-gray-700">Discount -</p>
+                  <p className="text-gray-600">
+                    {discount}%- {(netTotal * (discount / 100))}৳
+                  </p>
+                </div>
+                <div className="flex justify-between items-center">
+                  <p className="text-gray-700">Auto Round:</p>
+                  <p className="text-gray-600">
+                    {Math.round(netTotal * 0.05)}৳
+                  </p>
+                </div>
+                <hr className="border-gray-300" />
                 <div className="flex justify-between items-center font-bold">
                   <p className="text-gray-700">Gross Total:</p>
                   <p className="text-lg text-green-600">
-                    {(netTotal + Math.round(netTotal * 0.05)).toFixed(2)}৳
+                    {(netTotal + Math.round(netTotal * 0.05))-(netTotal * (discount / 100))}৳
                   </p>
                 </div>
               </div>
@@ -514,6 +543,8 @@ function Cart() {
               "phoneNumber", // Phone number input field
               "type", // Order type input field
               "table", // Table number input field
+              "discount", // Table number input field
+              "bill", // Table number input field
             ].map((field) => (
               <div key={field} className="relative">
                 <label
