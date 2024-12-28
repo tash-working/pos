@@ -143,8 +143,7 @@ function Cart() {
                 </tr>
               </thead>
               <tbody>
-                ${cartItems
-                  .map(
+                ${orders.map(
                     (item) => `
                   <tr>
                     <td>${item.name}</td>
