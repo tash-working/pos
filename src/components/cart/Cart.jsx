@@ -29,6 +29,7 @@ function Cart() {
       console.log(event.target.value);
       
       setDiscount(event.target.value);
+      setGrossTotal(subtotal + Math.round(subtotal * 0.05)-Math.round(subtotal * (discount / 100)));
     }
     console.log(event.target.name);
     
@@ -156,6 +157,7 @@ function Cart() {
             <h5>House NO-52, Road-1, Sector-3, Uttara, Dhaka-1230</h5>
             <h5>+880 1334-738387</h5>
             <h3>Guest Bill, Table No: ${formData.table}</h3>
+            <h4>Order Type: ${formData.type}</h4>
             <h4>Bill Type: ${formData.bill}</h4>
             <h4>Guest phone: ${formData.phoneNumber}</h4>
             <h4>Order Time: ${date_time}</h4>
@@ -208,7 +210,7 @@ function Cart() {
             <hr />
             <div class="flex font-bold">
               <p>Gross Total:</p>
-              <p>${(netTotal + Math.round(netTotal * 0.05)).toFixed(2)-(netTotal * (discount / 100))}৳(Paid)</p>
+              <p>${(netTotal + Math.round(netTotal * 0.05)).toFixed(2)-Math.round(netTotal * (discount / 100))}৳(Paid)</p>
             </div>
             <div class="flex font-bold">
               <p>MIDENUS POS</p>
