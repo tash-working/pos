@@ -421,6 +421,7 @@ function Cart() {
           {/* Order summary section */}
           <div>
           <div>
+          <div>
       <div className="flex-none max-w-md bg-white rounded-lg shadow-lg p-6 space-y-4">
         <h2 className="text-xl font-semibold text-gray-800 text-center">
           Order Summary
@@ -446,9 +447,8 @@ function Cart() {
           </p>
         </div>
       </div>
-      </div>
 
-     
+      
     </div>
           {/* Extras section */}
           <div className="mx-auto px-4 sm:px-6 lg:px-8 mt-8">
