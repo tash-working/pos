@@ -112,10 +112,47 @@ function Navbar({ count }) {
               </span>
             </span>
           </Link>
+          
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-6">
             {/* Home Link */}
+            <Link
+            to="/"
+            className="flex items-center space-x-3 
+            transform hover:scale-105 transition-transform"
+          >
+            <span className="text-xl font-bold text-white">
+              MIDENUS
+              <span className="text-m font-bold text-white sub text-sm">
+                POS v0.1.3
+              </span>
+            </span>
+          </Link>
+          <Link
+            to="/"
+            className="flex items-center space-x-3 
+            transform hover:scale-105 transition-transform"
+          >
+            <span className="text-xl font-bold text-white">
+              MIDENUS
+              <span className="text-m font-bold text-white sub text-sm">
+                POS v0.1.3
+              </span>
+            </span>
+          </Link>
+          <Link
+            to="/"
+            className="flex items-center space-x-3 
+            transform hover:scale-105 transition-transform"
+          >
+            <span className="text-xl font-bold text-white">
+              MIDENUS
+              <span className="text-m font-bold text-white sub text-sm">
+                POS v0.1.3
+              </span>
+            </span>
+          </Link>
             
 
             {/* Cart Link with Enhanced Counter */}

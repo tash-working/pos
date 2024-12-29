@@ -527,7 +527,7 @@ function Cart() {
             </div>
           </div>
           {/* Extras section */}
-          <div className="mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+          <div className="mx-auto px-4 sm:px-6 lg:px-8 mt-8 max-h-[500px] overflow-auto">
             <div className="grid grid-cols-1 gap-6 sm:gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-1">
               {extras.length >= 0 ? (
                 extras.map((item) => (
