@@ -17,7 +17,7 @@ const Dashboard = () => {
 
   const fetchPOSOrders = async () => {
     try {
-      const response = await fetch("http://localhost:5000/posOrder");
+      const response = await fetch("https://server-08ld.onrender.com/posOrder");
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }

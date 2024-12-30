@@ -292,7 +292,7 @@ function Cart() {
       discount: "",
     });
     setDiscount(0);
-    fetch("http://localhost:5000/PosOrder", {
+    fetch("https://server-08ld.onrender.com/PosOrder", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -357,7 +357,7 @@ function Cart() {
       const orders = JSON.parse(localStorage.getItem("orders")) || [];
       if (menu.length === 0) {
         const response = await fetch(
-          "http://localhost:5000/getMenu"
+          "https://server-08ld.onrender.com/getMenu"
         );
         const jsonData = await response.json();
         setMenu(jsonData[0].menu);

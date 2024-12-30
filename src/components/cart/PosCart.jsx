@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 import Confetti from "react-confetti";
 import Items from "../category/items/Items";
 import ExtraItems from "../category/items/ExtraItems";
-const socket = io(`http://localhost:5000/`);
+const socket = io(`https://server-08ld.onrender.com/`);
 
 function PosCart() {
   const [orders, setOrders] = useState([]);
@@ -171,7 +171,7 @@ function PosCart() {
         orderCompleteTime: "0",
       };
       // console.log(orderData);
-      fetch("http://localhost:5000/init", {
+      fetch("https://server-08ld.onrender.com/init", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
