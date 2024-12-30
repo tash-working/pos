@@ -23,24 +23,46 @@ function Cart() {
     discount: "",
   });
   const [showModal, setShowModal] = useState(false);
+  // Options for table numbers based on type
+  const tableOptions = {
+    front: Array.from({ length: 10 }, (_, i) => `front${i + 1}`),
+    back: Array.from({ length: 8 }, (_, i) => `back${i + 1}`),
+    smoke: Array.from({ length: 5 }, (_, i) => `smoke${i + 1}`),
+  };
 
   // Handle input changes in the form
   const handleChange = (event) => {
-    if (event.target.name === "discount") {
-      console.log(event.target.value);
+    const { name, value } = event.target;
 
-      setDiscount(event.target.value);
+    // If the discount field is being changed
+    if (name === "discount") {
+      console.log(value);
+      setDiscount(value);
       setGrossTotal(
         netTotal +
-          Math.round(netTotal * 0.05) -
-          Math.round(netTotal * (discount / 100))
+        Math.round(netTotal * 0.05) -
+        Math.round(netTotal * (value / 100))
       );
     }
-    console.log(event.target.name);
 
-    const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
+    // If the type is not "table", set the table value to 0
+    if (name === "type" && value !== "table") {
+      setFormData({
+        ...formData,
+        [name]: value,
+        table: "0", // Set table to 0 if type is not "table"
+      });
+    } else {
+      // For other fields, just update the form data
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
+
+    console.log(name);
   };
+
 
   // Generate a timestamp string for the current date and time
   const handleClick = () => {
@@ -66,11 +88,12 @@ function Cart() {
       orders,
       phoneNumber: formData.phoneNumber,
       type: formData.type,
+      discount: formData.discount,
       table: formData.table,
       bill: formData.bill,
       price: (netTotal +
-      Math.round(netTotal * 0.05) -
-      Math.round(netTotal * (discount / 100))),
+        Math.round(netTotal * 0.05) -
+        Math.round(netTotal * (discount / 100))),
       date_time,
     };
     console.log(orderData); // Log order data for debugging
@@ -186,8 +209,8 @@ function Cart() {
               </thead>
               <tbody>
                 ${orders
-                  .map(
-                    (item) => `
+        .map(
+          (item) => `
                   <tr>
                     <td>${item.name}</td>
                     <td>${item.quantity}</td>
@@ -195,8 +218,8 @@ function Cart() {
                     <td>${(item.quantity * item.price).toFixed(2)}৳</td>
                   </tr>
                 `
-                  )
-                  .join("")}
+        )
+        .join("")}
               </tbody>
             </table>
 
@@ -222,10 +245,9 @@ function Cart() {
             <hr />
             <div class="flex font-bold">
               <p>Gross Total:</p>
-              <p>${
-                (netTotal + Math.round(netTotal * 0.05)).toFixed(2) -
-                Math.round(netTotal * (discount / 100))
-              }৳(Paid)</p>
+              <p>${(netTotal + Math.round(netTotal * 0.05)).toFixed(2) -
+      Math.round(netTotal * (discount / 100))
+      }৳(Paid)</p>
             </div>
             <div class="flex font-bold">
               <p>MIDENUS POS</p>
@@ -576,21 +598,13 @@ function Cart() {
           onSubmit={handleSubmit}
           className="mx-auto mt-8 max-w-3xl rounded-xl bg-white p-8 shadow-lg mb-8"
         >
-          <div className="mb-8 border-b border-gray-200 pb-4">
-            <h2 className="text-2xl font-bold text-gray-900">
-              Order Information
-            </h2>
-            <p className="mt-2 text-sm text-gray-600">
-              Please enter your Order details
-            </p>
-          </div>
           <div className="grid gap-8 md:grid-cols-2">
             {[
               "phoneNumber", // Phone number input field
               "type", // Order type input field
               "table", // Table number input field
-              "discount", // Table number input field
-              "bill", // Table number input field
+              "discount", // Discount input field
+              "bill", // Bill payment type input field
             ].map((field) => (
               <div key={field} className="relative">
                 <label
@@ -599,17 +613,72 @@ function Cart() {
                 >
                   {field.charAt(0).toUpperCase() + field.slice(1)}
                 </label>
-                <input
-                  type={field === "phoneNumber" ? "tel" : "text"} // Conditional input type
-                  name={field}
-                  id={field}
-                  value={formData[field]}
-                  onChange={handleChange}
-                  className="w-full rounded-lg border border-gray-300 p-2 focus:ring focus:ring-indigo-200 focus:outline-none"
-                />
+
+                {field === "type" ? (
+                  <select
+                    name={field}
+                    id={field}
+                    value={formData[field]}
+                    onChange={handleChange}
+                    className="w-full rounded-lg border border-gray-300 p-2 focus:ring focus:ring-indigo-200 focus:outline-none"
+                  >
+                     <option value="">Select an opton</option>
+                    <option value="table">Table</option>
+                    <option value="takeAway">Take Away</option>
+                    <option value="online">Online</option>
+                  </select>
+                ) : field === "table" && formData.type === "table" ? (
+                  <select
+                    name={field}
+                    id={field}
+                    value={formData[field]}
+                    onChange={handleChange}
+                    className="w-full rounded-lg border border-gray-300 p-2 focus:ring focus:ring-indigo-200 focus:outline-none"
+                  >
+                    <optgroup label="Front">
+                      <option value="front1">Front 1</option>
+                      <option value="front2">Front 2</option>
+                      <option value="front3">Front 3</option>
+                    </optgroup>
+                    <optgroup label="Back">
+                      <option value="back1">Back 1</option>
+                      <option value="back2">Back 2</option>
+                      <option value="back3">Back 3</option>
+                    </optgroup>
+                    <optgroup label="Smoke">
+                      <option value="smoke1">Smoke 1</option>
+                      <option value="smoke2">Smoke 2</option>
+                      <option value="smoke3">Smoke 3</option>
+                    </optgroup>
+                  </select>
+                ) : field === "bill" ? (
+                  <select
+                    name={field}
+                    id={field}
+                    value={formData[field]}
+                    onChange={handleChange}
+                    className="w-full rounded-lg border border-gray-300 p-2 focus:ring focus:ring-indigo-200 focus:outline-none"
+                  >
+                    <option value="">Select an opton</option>
+                    <option value="cash">Cash</option>
+                    <option value="card">Card</option>
+                    <option value="mobile">Mobile</option>
+                    <option value="due">Due</option>
+                  </select>
+                ) : (
+                  <input
+                    type={field === "phoneNumber" ? "tel" : "text"} // Conditional input type
+                    name={field}
+                    id={field}
+                    value={formData[field]}
+                    onChange={handleChange}
+                    className="w-full rounded-lg border border-gray-300 p-2 focus:ring focus:ring-indigo-200 focus:outline-none"
+                  />
+                )}
               </div>
             ))}
           </div>
+
           <button
             type="submit"
             className="mt-6 w-full bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors"
@@ -617,6 +686,7 @@ function Cart() {
             Place Order
           </button>
         </form>
+
       </div>
 
       {showModal && (

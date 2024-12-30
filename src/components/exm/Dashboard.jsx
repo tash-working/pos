@@ -2,6 +2,11 @@ import React, { useEffect, useState } from "react";
 import "./Dashboard.css";
 import Navbar from "../navbar/Navbar";
 import { Link } from "react-router-dom";
+import { Doughnut } from "react-chartjs-2";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+
+// Register Chart.js components
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 const Dashboard = () => {
   const [orders, setOrders] = useState([]);
@@ -36,7 +41,6 @@ const Dashboard = () => {
       if (billsByType.card) {
         setCard(billsByType.card);
       }
-
       if (billsByType.mobile) {
         setMb(billsByType.mobile);
       }
@@ -51,59 +55,104 @@ const Dashboard = () => {
   useEffect(() => {
     fetchPOSOrders();
   }, []);
+
+  const chartData = {
+    labels: ["Cash", "Mobile Banking", "Card", "Due"],
+    datasets: [
+      {
+        label: "Payment Breakdown",
+        data: [
+          cash.reduce((sum, item) => sum + item.price, 0),
+          mb.reduce((sum, item) => sum + item.price, 0),
+          card.reduce((sum, item) => sum + item.price, 0),
+          due.reduce((sum, item) => sum + item.price, 0),
+        ],
+        backgroundColor: ["#36454F", "#023020", "#301934", "#343434"],
+        borderColor: ["#ffffff", "#ffffff", "#ffffff", "#ffffff"],
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const chartOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "top",
+      },
+      tooltip: {
+        callbacks: {
+          label: (context) => `${context.label}: ${context.raw} TK`,
+        },
+      },
+    },
+  };
+
   return (
     <div>
       <Navbar />
-      <div className="my-4 text-center">
-        <h1 className="text-transparent bg-clip-text bg-gradient-to-r from-gray-800 via-black to-gray-900 text-4xl">
-          Total Amount: {orders.reduce((sum, item) => sum + item.price, 0)} TK
-        </h1>
-      </div>
 
-      <div className="my-4 flex flex-wrap gap-4 justify-center">
-        <div
-          id="cash"
-          className="px-6 py-3 bg-[#36454F] text-white text-center cursor-pointer rounded hover:bg-[#717786]"
-        >
-          💵Cash
-          <hr />
-          <p>Total Orders : {cash.length}</p>
-          <p>Amount : {cash.reduce((sum, item) => sum + item.price, 0)} TK</p>
+
+
+      <div className="my-8">
+
+        <h2 className="text-2xl font-bold text-center mb-4">Payment Breakdown Chart</h2>
+        <div className="my-4 text-center">
+          <h1 className="text-transparent bg-clip-text bg-gradient-to-r from-gray-800 via-black to-gray-900 text-4xl">
+            Total Amount: {orders.reduce((sum, item) => sum + item.price, 0)} TK
+          </h1>
         </div>
-        <div
-          id="mobileBanking"
-          className="px-6 py-3 bg-[#023020] text-white text-center cursor-pointer rounded hover:bg-[#717786]"
-        >
-          📲Mobile Banking
-          <hr />
-          <p>Total Orders : {mb.length}</p>
-          <p>Amount : {mb.reduce((sum, item) => sum + item.price, 0)} TK</p>
-        </div>
-        <div
-          id="card"
-          className="px-6 py-3 bg-[#301934] text-white text-center cursor-pointer rounded hover:bg-[#717786]"
-        >
-          💳Card
-          <hr />
-          <p>Total Orders : {card.length}</p>
-          <p>Amount : {card.reduce((sum, item) => sum + item.price, 0)} TK</p>
-        </div>
-        <div
-          id="due"
-          className="px-6 py-3 bg-[#343434] text-white text-center cursor-pointer rounded hover:bg-[#717786]"
-        >
-          💸Due
-          <hr />
-          <p>Total Orders : {due.length}</p>
-          <p>Amount : {due.reduce((sum, item) => sum + item.price, 0)} TK</p>
+        <div className="my-4 flex flex-wrap gap-4 justify-center">
+          <div
+            id="cash"
+            className="px-6 py-3 bg-[#36454F] text-white text-center cursor-pointer rounded hover:bg-[#717786]"
+          >
+            💵Cash
+            <hr />
+            <p>Total Orders : {cash.length}</p>
+            <p>Amount : {cash.reduce((sum, item) => sum + item.price, 0)} TK</p>
+          </div>
+          <div
+            id="mobileBanking"
+            className="px-6 py-3 bg-[#023020] text-white text-center cursor-pointer rounded hover:bg-[#717786]"
+          >
+            📲Mobile Banking
+            <hr />
+            <p>Total Orders : {mb.length}</p>
+            <p>Amount : {mb.reduce((sum, item) => sum + item.price, 0)} TK</p>
+          </div>
+          <div
+            id="card"
+            className="px-6 py-3 bg-[#301934] text-white text-center cursor-pointer rounded hover:bg-[#717786]"
+          >
+            💳Card
+            <hr />
+            <p>Total Orders : {card.length}</p>
+            <p>Amount : {card.reduce((sum, item) => sum + item.price, 0)} TK</p>
+          </div>
+          <div
+            id="due"
+            className="px-6 py-3 bg-[#343434] text-white text-center cursor-pointer rounded hover:bg-[#717786]"
+          >
+            💸Due
+            <hr />
+            <p>Total Orders : {due.length}</p>
+            <p>Amount : {due.reduce((sum, item) => sum + item.price, 0)} TK</p>
+          </div>
+
+          <Link to="/dashboard/history">
+            <button
+              id="btn"
+              className="px-6 py-3 bg-[#343434] text-white text-center cursor-pointer rounded hover:bg-[#717786]"
+            >
+              See Order history ➡️
+            </button>
+          </Link>
         </div>
 
-        <button
-          id="btn"
-          className="px-6 py-3 bg-[#343434] text-white text-center cursor-pointer rounded hover:bg-[#717786]"
-        >
-          <Link to="/dashboard/history">See Order history ➡️</Link>
-        </button>
+        <div className="w-full max-w-md mx-auto bg-white shadow-md rounded-lg p-6">
+          <Doughnut data={chartData} options={chartOptions} />
+        </div>
       </div>
     </div>
   );

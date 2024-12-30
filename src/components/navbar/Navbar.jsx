@@ -1,6 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
-import { FaHome, FaShoppingCart, FaBars, FaTimes } from "react-icons/fa";
+import { FaHome, FaShoppingCart, FaBars, FaTimes, FaTachometerAlt } from "react-icons/fa";
+import { MdDashboard } from "react-icons/md";
+import { BiGridAlt } from "react-icons/bi";
+import { AiOutlineDashboard } from "react-icons/ai";
 import { motion, AnimatePresence } from "framer-motion";
 import PosCart from "../cart/PosCart";
 
@@ -108,7 +111,7 @@ function Navbar({ count }) {
             <span className="text-xl font-bold text-white">
               MIDENUS
               <span className="text-m font-bold text-white sub text-sm">
-                POS v0.1.3
+                POS<sup> V0.1.5</sup>
               </span>
             </span>
           </Link>
@@ -125,7 +128,9 @@ function Navbar({ count }) {
                 text-sm font-medium text-white 
                 hover:text-fuchsia-200 transition-colors"
               >
-                <FaHome size={20} />
+                
+                <BiGridAlt size={20} />
+               
                 <span>Dashboard</span>
               </Link>
             </div>

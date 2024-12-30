@@ -14,6 +14,8 @@ function History() {
     console.log(e.target.id);
     if (e.target.id === "cash") {
       setSelectedType("cash");
+      console.log(cash);
+
     }
     if (e.target.id === "card") {
       setSelectedType("card");
@@ -62,17 +64,18 @@ function History() {
       <nav className="border-b bg-white">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex space-x-8">
-            <Link to="/cart" className="py-4 px-1">
-              <span className="text-sm font-medium text-gray-500 hover:text-gray-700">
-                Cart
-              </span>
-            </Link>
+
             <Link
-              to="/History"
+              to="/dashboard/history"
               className="border-b-2 border-indigo-500 py-4 px-1"
             >
               <span className="text-sm font-medium text-indigo-600">
-                History
+                Order History
+              </span>
+            </Link>
+            <Link to="/dashboard/history_items" className="py-4 px-1">
+              <span className="text-sm font-medium text-gray-500 hover:text-gray-700">
+                Items History
               </span>
             </Link>
           </div>
@@ -151,106 +154,98 @@ function History() {
 
       {/* Order History */}
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <h1>{selectedType}</h1>
-        <div className="space-y-6">
-          {sentOrders
-            .slice()
-            .reverse()
-            .map((order, index) => (
-              <div>
-                {order.bill === selectedType ? (
-                  <div>
-                    <div
-                      key={index}
-                      className="overflow-hidden rounded-lg bg-white shadow-sm"
-                    >
-                      {/* Order Header */}
-                      <div className="border-b border-gray-200 bg-gray-50 px-6 py-4">
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <p className="text-sm text-gray-500">Order No:</p>
-                            <p className="text-lg font-medium text-gray-900">
-                              {order._id}
-                            </p>
-                          </div>
-                          <span className="inline-flex rounded-full bg-green-100 px-3 py-1 text-sm font-medium text-green-800">
-                            {order.status}
-                          </span>
-                        </div>
-                        <div className="mt-2 text-sm text-gray-500">
-                          <p>
-                            House {order.house}, Road {order.road}, Sector{" "}
-                            {order.sector}, Uttara
-                          </p>
-                          <p>Phone: {order.phoneNumber}</p>
-                        </div>
-                      </div>
 
-                      {/* Order Items */}
-                      <div className="divide-y divide-gray-200">
-                        {order.orders.map((item, itemIndex) => (
-                          <div
-                            key={itemIndex}
-                            className="flex items-center justify-between p-6"
-                          >
-                            <div className="flex items-center space-x-4">
-                              <div>
-                                <h4 className="text-lg font-medium text-gray-900">
-                                  {item.name}
-                                </h4>
-                                <span className="mt-1 inline-flex rounded-full bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700">
-                                  {item.edited ? "Customized" : "Regular"}
-                                </span>
-                                {item.edited && (
-                                  <div className="mt-2 space-y-1 text-sm text-gray-500">
-                                    <p>
-                                      Size:{" "}
-                                      {item.selectedSize || item.size[0].size}
-                                    </p>
-                                    {item.ingredients?.map(
-                                      (ingredient) =>
-                                        ingredient.selected && (
-                                          <p
-                                            key={
-                                              ingredient.id || ingredient.name
-                                            }
-                                          >
-                                            Added: {ingredient.name}
-                                          </p>
-                                        )
-                                    )}
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-                            <div className="text-right">
-                              <p className="text-lg font-medium text-gray-900">
-                                ৳{item.price}
-                              </p>
-                              <p className="mt-1 text-sm text-gray-500">
-                                Quantity: {item.quantity}
-                              </p>
-                            </div>
-                          </div>
-                        ))}
-                        <div className="px-6 py-4 space-y-3">
-                          <p>Net Total: {order.price}৳</p>
-                          <hr></hr>
-                          <p>Vat - 5.00%: {order.price * 0.05}৳</p>
-                          <p>Auto Round: {Math.round(order.price * 0.05)}৳</p>
-                          <hr></hr>
-                          <p>
-                            Gross Total:{" "}
-                            {order.price + Math.round(order.price * 0.05)}৳
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ) : null}
-              </div>
-            ))}
+        <h1 className="text-transparent bg-clip-text bg-gradient-to-r from-gray-800 via-black to-gray-900 text-4xl">
+          {selectedType}
+        </h1>
+        <hr />
+        <div className="font-sans p-6 bg-gray-100">
+          <h2 className="text-3xl font-bold text-center mb-8">Orders Summary</h2>
+          {sentOrders.map((order, index) => (
+            <div key={index}>
+              {order.bill === selectedType ? (
+                <div className="mb-10 bg-white shadow-md rounded-lg p-6">
+                  <h3 className="text-xl font-bold mb-4 text-green-600">
+                    Order ID: {order._id}
+                  </h3>
+                  <table className="w-full bg-white border-collapse">
+                    <tbody>
+                      <tr className="border-b">
+                        <th className="p-4 bg-green-500 text-white text-left">Phone</th>
+                        <td className="p-4">{order.phoneNumber}</td>
+                      </tr>
+                      <tr className="border-b">
+                        <th className="p-4 bg-green-500 text-white text-left">Type</th>
+                        <td className="p-4">{order.type}</td>
+                      </tr>
+                      <tr className="border-b">
+                        <th className="p-4 bg-green-500 text-white text-left">Table</th>
+                        <td className="p-4">{order.table}</td>
+                      </tr>
+                      <tr className="border-b">
+                        <th className="p-4 bg-green-500 text-white text-left">Payment</th>
+                        <td className="p-4">{order.bill}</td>
+                      </tr>
+                      <tr className="border-b">
+                        <th className="p-4 bg-green-500 text-white text-left">Discount</th>
+                        <td className="p-4 text-red-600 font-bold">
+                          {order.discount ? `${order.discount}%` : "No Discount"}
+                        </td>
+                      </tr>
+                      <tr className="border-b">
+                        <th className="p-4 bg-green-500 text-white text-left">Total</th>
+                        <td className="p-4 text-green-600 font-bold">{order.price} TK (with 5% VAT added)</td>
+                      </tr>
+                      <tr>
+                        <th className="p-4 bg-green-500 text-white text-left">Date</th>
+                        <td className="p-4">{order.date_time}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  {order.orders.length > 0 && (
+                    <>
+                      <h4 className="text-xl font-bold mt-6 mb-4">Order Items</h4>
+                      <table className="w-full bg-white shadow-md rounded-lg overflow-hidden">
+                        <thead>
+                          <tr className="bg-green-500 text-white">
+                            <th className="p-4 text-left">Image</th>
+                            <th className="p-4 text-left">Name</th>
+                            <th className="p-4 text-left">Bio</th>
+                            <th className="p-4 text-left">Price</th>
+                            <th className="p-4 text-left">Size</th>
+                            <th className="p-4 text-left">Quantity</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {order.orders.map((item, index) => (
+                            <tr key={index} className="border-b">
+                              <td className="p-4">
+                                <img
+                                  src={item.imageUrl}
+                                  alt={item.name}
+                                  className="w-24 h-auto rounded-md"
+                                />
+                              </td>
+                              <td className="p-4">{item.name}</td>
+                              <td className="p-4">{item.bio}</td>
+                              <td className="p-4">{item.price}</td>
+                              <td className="p-4">{item.selectedSize}</td>
+                              <td className="p-4">{item.quantity}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </>
+                  )}
+                </div>
+              ) : null}
+            </div>
+          ))}
         </div>
+
+
+
       </div>
     </div>
   );
