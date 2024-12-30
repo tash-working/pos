@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../navbar/Navbar";
 import { Link } from "react-router-dom";
+import {FaMoneyBill ,FaMobileAlt,  FaMoneyCheck,FaExclamationCircle,FaArrowRight  } from "react-icons/fa";
+
 
 function History() {
   const [sentOrders, setSentOrders] = useState([]);

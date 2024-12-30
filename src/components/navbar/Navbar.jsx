@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
-import { FaHome, FaShoppingCart, FaBars, FaTimes, FaTachometerAlt } from "react-icons/fa";
+import { FaHome, FaShoppingCart, FaBars, FaTimes, FaTachometerAlt,FaMoneyBill  } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { BiGridAlt } from "react-icons/bi";
 import { AiOutlineDashboard } from "react-icons/ai";

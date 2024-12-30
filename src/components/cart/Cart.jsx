@@ -700,11 +700,12 @@ function Cart() {
           </div>
 
           <button
-            type="submit"
-            className="mt-6 w-full bg-[#313b44] text-white py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors"
-          >
-            Place Order
-          </button>
+  type="submit"
+  className="mt-6 w-full bg-[#313b44] text-white py-2 px-4 rounded-lg hover:bg-[#313b50] hover:shadow-indigo-600/25 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 active:scale-95 transition-all duration-200"
+>
+  Place Order
+</button>
+
         </form>
 
       </div>

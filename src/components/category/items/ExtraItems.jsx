@@ -72,9 +72,9 @@ function ExtraItems({ getCount, category, item }) {
           e.preventDefault(); // Prevent link navigation
           setOrder();
         }}
-        className="ml-4 rounded-lg bg-blue-600 text-white py-2 px-4 text-sm font-medium transition-all duration-300 hover:bg-blue-700 active:scale-95"
+        className="rounded-xl bg-[#313b44] px-3 py-1 text-lg font-semibold text-white shadow-xl transition-all duration-200 hover:bg-[#313b50] hover:shadow-indigo-600/25 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 active:scale-95"
       >
-        Add to Cart
+        Add Item
       </button>
     </div>
   );

@@ -4,6 +4,7 @@ import Navbar from "../navbar/Navbar";
 import { Link } from "react-router-dom";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import {FaMoneyBill ,FaMobileAlt,  FaMoneyCheck,FaExclamationCircle,FaArrowRight  } from "react-icons/fa";
 
 // Register Chart.js components
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -107,7 +108,10 @@ const Dashboard = () => {
             id="cash"
             className="px-6 py-3 bg-[#36454F] text-white text-center cursor-pointer rounded hover:bg-[#717786]"
           >
-            💵Cash
+           
+            <div style={{ display: "flex", alignItems: "center", gap: "0.2rem" }}>
+            <FaMoneyBill size={20} />Cash
+        </div>
             <hr />
             <p>Total Orders : {cash.length}</p>
             <p>Amount : {cash.reduce((sum, item) => sum + item.price, 0)} TK</p>
@@ -116,7 +120,11 @@ const Dashboard = () => {
             id="mobileBanking"
             className="px-6 py-3 bg-[#023020] text-white text-center cursor-pointer rounded hover:bg-[#717786]"
           >
-            📲Mobile Banking
+           <div style={{ display: "flex", alignItems: "center", gap: "0.2rem" }}>
+            <FaMobileAlt/>
+           <FaMoneyCheck />
+            Mobile Banking
+        </div>
             <hr />
             <p>Total Orders : {mb.length}</p>
             <p>Amount : {mb.reduce((sum, item) => sum + item.price, 0)} TK</p>
@@ -125,7 +133,10 @@ const Dashboard = () => {
             id="card"
             className="px-6 py-3 bg-[#301934] text-white text-center cursor-pointer rounded hover:bg-[#717786]"
           >
-            💳Card
+             
+             <div style={{ display: "flex", alignItems: "center", gap: "0.2rem" }}>
+             <FaMoneyCheck />Card
+        </div>
             <hr />
             <p>Total Orders : {card.length}</p>
             <p>Amount : {card.reduce((sum, item) => sum + item.price, 0)} TK</p>
@@ -134,18 +145,21 @@ const Dashboard = () => {
             id="due"
             className="px-6 py-3 bg-[#343434] text-white text-center cursor-pointer rounded hover:bg-[#717786]"
           >
-            💸Due
+            
+            <div style={{ display: "flex", alignItems: "center", gap: "0.2rem" }}>
+            <FaExclamationCircle />Due
+        </div>
             <hr />
             <p>Total Orders : {due.length}</p>
             <p>Amount : {due.reduce((sum, item) => sum + item.price, 0)} TK</p>
           </div>
 
           <Link to="/dashboard/history">
-            <button
+            <button style={{ display: "flex", alignItems: "center", gap: "0.2rem" }}
               id="btn"
               className="px-6 py-3 bg-[#343434] text-white text-center cursor-pointer rounded hover:bg-[#717786]"
             >
-              See Order history ➡️
+              See Order history <FaArrowRight />
             </button>
           </Link>
         </div>

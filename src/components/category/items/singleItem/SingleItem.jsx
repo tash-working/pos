@@ -216,10 +216,9 @@ function SingleItem() {
                         value={s.size}
                         onClick={() => handleSizeChange(s.size)}
                         className={`w-full rounded-xl px-3 sm:px-6 py-2 sm:py-3 text-xs sm:text-sm font-medium transition-all duration-200 whitespace-nowrap overflow-hidden text-ellipsis
-                          ${
-                            selectedSize === s.size
-                              ? "bg-indigo-600 text-white ring-2 ring-indigo-600 ring-offset-2"
-                              : "bg-white text-gray-700 hover:bg-gray-50 ring-1 ring-gray-200"
+                          ${selectedSize === s.size
+                            ? "bg-indigo-600 text-white ring-2 ring-indigo-600 ring-offset-2"
+                            : "bg-white text-gray-700 hover:bg-gray-50 ring-1 ring-gray-200"
                           }`}
                       >
                         {s.size}
@@ -247,10 +246,9 @@ function SingleItem() {
                             <button
                               onClick={() => addAddOns(ingredient, index)}
                               className={`rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-200
-                                ${
-                                  ingredient.selected
-                                    ? "bg-green-600 text-white shadow-lg shadow-green-600/25"
-                                    : "bg-indigo-600 text-white shadow-lg shadow-indigo-600/25 hover:bg-indigo-700"
+                                ${ingredient.selected
+                                  ? "bg-green-600 text-white shadow-lg shadow-green-600/25"
+                                  : "bg-indigo-600 text-white shadow-lg shadow-indigo-600/25 hover:bg-indigo-700"
                                 }`}
                             >
                               {ingredient.selected ? "✓ Added" : "+ Add"}
@@ -268,10 +266,11 @@ function SingleItem() {
                 {/* Add to Cart Button */}
                 <button
                   onClick={setOrder}
-                  className="w-full rounded-xl bg-indigo-600 px-8 py-4 text-lg font-semibold text-white shadow-xl transition-all duration-200 hover:bg-indigo-700 hover:shadow-indigo-600/25 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2 active:scale-95"
+                  className="w-full rounded-xl bg-[#313b44] px-8 py-4 text-lg font-semibold text-white shadow-xl transition-all duration-200 hover:bg-[#313b50] hover:shadow-indigo-600/25 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 active:scale-95"
                 >
                   Add to Cart
                 </button>
+
               </div>
             </div>
           </div>
