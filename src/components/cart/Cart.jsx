@@ -22,6 +22,7 @@ function Cart() {
     bill: "",
     discount: "",
   });
+  const [showModal, setShowModal] = useState(false);
 
   // Handle input changes in the form
   const handleChange = (event) => {
@@ -56,6 +57,10 @@ function Cart() {
   // Handle form submission to place an order
   const handleSubmit = (event) => {
     event.preventDefault();
+    setShowModal(true);
+  };
+
+  const confirmOrder = () => {
     const date_time = handleClick(); // Generate timestamp
     const orderData = {
       orders,
@@ -282,6 +287,8 @@ function Cart() {
         console.error("Error fetching data:", error);
         // Handle the error, e.g., display an error message to the user
       });
+
+    setShowModal(false);
   };
 
   // Increment quantity of a specific order item
@@ -559,7 +566,7 @@ function Cart() {
                   />
                 ))
               ) : (
-                <p>Loading extras...</p>
+                <p>Loading Items...</p>
               )}
             </div>
           </div>
@@ -611,6 +618,47 @@ function Cart() {
           </button>
         </form>
       </div>
+
+      {showModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md relative">
+            <button
+              className="absolute top-2 right-2 text-gray-600 hover:text-gray-900"
+              onClick={() => setShowModal(false)}
+            >
+              <svg
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+            <h2 className="text-xl font-semibold mb-4">Confirm Order</h2>
+            <p className="mb-4">Are you sure you want to place this order?</p>
+            <div className="flex justify-end space-x-4">
+              <button
+                className="bg-gray-200 text-gray-800 py-2 px-4 rounded-lg hover:bg-gray-300"
+                onClick={() => setShowModal(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700"
+                onClick={confirmOrder}
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
