@@ -45,58 +45,37 @@ function ExtraItems({ getCount, category, item }) {
   };
 
   return (
-    <div className="group relative aspect-square w-full overflow-hidden rounded-2xl shadow-lg">
-      {/* Image Container with Fixed Aspect Ratio */}
-    
-        <div className="relative h-full w-full">
-          <img
-            src={item.imageUrl}
-            alt={item.name}
-            className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-105n overflow-hidden"
-            loading="lazy"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-          <div className="absolute inset-0 flex flex-col justify-between p-6 text-white">
-            <div>
-              <h3 className="text-xl font-bold line-clamp-2">{item.name}</h3>
-              <h4 className="text-sm opacity-80 line-clamp-1">
-                {item.size[0]?.size}
-              </h4>
-            </div>
-            
-
-            <h4 className="mb-2 line-clamp-1 text-lg font-semibold tracking-tight text-gray-900">
-              {item.size[0].size}
-              
-            </h4> {/* Bottom Section */}
-            <div>
-              {/* Price */}
-              <div className="mb-4 flex items-baseline">
-                <span className="text-sm font-medium opacity-80 mr-1">৳</span>
-                <span className="text-3xl font-bold">
-                  {item.price}
-                </span>
-              </div>
-              
-              {/* Add to Cart Button */}
-              <button
-                onClick={(e) => {
-                  e.preventDefault(); // Prevent link navigation
-                  setOrder();
-                }}
-                className="w-full rounded-xl bg-white/20 backdrop-blur-sm py-3 text-sm font-medium text-white transition-all duration-300 hover:bg-white/30 active:scale-95"
-              >
-                Add to Cart
-              </button>
-            </div>
-          </div>
-        </div>
-     
-
-      {/* Content Container */}
-      <div className="p-[140px]">
-        {/* Add to Cart Button */}
+    <div className="flex items-center p-4 bg-white rounded-lg shadow-md">
+      {/* Image Container */}
+      <div className="flex-shrink-0 w-16 h-16">
+        <img
+          src={item.imageUrl}
+          alt={item.name}
+          className="w-full h-full object-cover rounded-lg"
+          loading="lazy"
+        />
       </div>
+
+      {/* Details Container */}
+      <div className="flex-grow mx-4">
+        <h3 className="text-lg font-bold line-clamp-1">{item.name}</h3>
+        <h4 className="text-sm opacity-80 line-clamp-1">{item.size[0]?.size}</h4>
+        <div className="flex items-baseline">
+          <span className="text-sm font-medium opacity-80 mr-1">৳</span>
+          <span className="text-xl font-bold">{item.price}</span>
+        </div>
+      </div>
+
+      {/* Add to Cart Button */}
+      <button
+        onClick={(e) => {
+          e.preventDefault(); // Prevent link navigation
+          setOrder();
+        }}
+        className="ml-4 rounded-lg bg-blue-600 text-white py-2 px-4 text-sm font-medium transition-all duration-300 hover:bg-blue-700 active:scale-95"
+      >
+        Add to Cart
+      </button>
     </div>
   );
 }
