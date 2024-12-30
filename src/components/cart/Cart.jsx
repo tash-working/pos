@@ -585,7 +585,7 @@ function Cart() {
                 <hr className="border-gray-300" />
                 <div className="flex justify-between items-center font-bold">
                   <p className="text-gray-700">Gross Total:</p>
-                  <p className="text-lg text-green-600">
+                  <p className="text-lg text-[#1c1d22]">
                     {netTotal +
                       Math.round(netTotal * 0.05) -
                       Math.round(netTotal * (discount / 100))}
@@ -701,7 +701,7 @@ function Cart() {
 
           <button
             type="submit"
-            className="mt-6 w-full bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors"
+            className="mt-6 w-full bg-[#313b44] text-white py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors"
           >
             Place Order
           </button>

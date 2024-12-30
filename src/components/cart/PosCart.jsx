@@ -513,7 +513,7 @@ function PosCart() {
                 <hr className="border-gray-300" />
                 <div className="flex justify-between items-center font-bold">
                   <p className="text-gray-700">Gross Total:</p>
-                  <p className="text-lg text-green-600">
+                  <p className="text-lg text-[#1c1d22]">
                     {(netTotal + Math.round(netTotal * 0.05)).toFixed(2)}৳
                   </p>
                 </div>

@@ -165,39 +165,39 @@ function History() {
             <div key={index}>
               {order.bill === selectedType ? (
                 <div className="mb-10 bg-white shadow-md rounded-lg p-6">
-                  <h3 className="text-xl font-bold mb-4 text-green-600">
+                  <h3 className="text-xl font-bold mb-4 text-[#1c1d22]">
                     Order ID: {order._id}
                   </h3>
                   <table className="w-full bg-white border-collapse">
                     <tbody>
                       <tr className="border-b">
-                        <th className="p-4 bg-green-500 text-white text-left">Phone</th>
+                        <th className="p-4 bg-[#313b44] text-white text-left">Phone</th>
                         <td className="p-4">{order.phoneNumber}</td>
                       </tr>
                       <tr className="border-b">
-                        <th className="p-4 bg-green-500 text-white text-left">Type</th>
+                        <th className="p-4 bg-[#313b44] text-white text-left">Type</th>
                         <td className="p-4">{order.type}</td>
                       </tr>
                       <tr className="border-b">
-                        <th className="p-4 bg-green-500 text-white text-left">Table</th>
+                        <th className="p-4 bg-[#313b44] text-white text-left">Table</th>
                         <td className="p-4">{order.table}</td>
                       </tr>
                       <tr className="border-b">
-                        <th className="p-4 bg-green-500 text-white text-left">Payment</th>
+                        <th className="p-4 bg-[#313b44] text-white text-left">Payment</th>
                         <td className="p-4">{order.bill}</td>
                       </tr>
                       <tr className="border-b">
-                        <th className="p-4 bg-green-500 text-white text-left">Discount</th>
+                        <th className="p-4 bg-[#313b44] text-white text-left">Discount</th>
                         <td className="p-4 text-red-600 font-bold">
                           {order.discount ? `${order.discount}%` : "No Discount"}
                         </td>
                       </tr>
                       <tr className="border-b">
-                        <th className="p-4 bg-green-500 text-white text-left">Total</th>
-                        <td className="p-4 text-green-600 font-bold">{order.price} TK (with 5% VAT added)</td>
+                        <th className="p-4 bg-[#313b44] text-white text-left">Total</th>
+                        <td className="p-4 text-[#1c1d22] font-bold">{order.price} TK (with 5% VAT added)</td>
                       </tr>
                       <tr>
-                        <th className="p-4 bg-green-500 text-white text-left">Date</th>
+                        <th className="p-4 bg-[#313b44] text-white text-left">Date</th>
                         <td className="p-4">{order.date_time}</td>
                       </tr>
                     </tbody>
@@ -208,7 +208,7 @@ function History() {
                       <h4 className="text-xl font-bold mt-6 mb-4">Order Items</h4>
                       <table className="w-full bg-white shadow-md rounded-lg overflow-hidden">
                         <thead>
-                          <tr className="bg-green-500 text-white">
+                          <tr className="bg-[#313b44] text-white">
                             <th className="p-4 text-left">Image</th>
                             <th className="p-4 text-left">Name</th>
                             <th className="p-4 text-left">Bio</th>
