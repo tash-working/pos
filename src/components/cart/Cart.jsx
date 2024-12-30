@@ -62,7 +62,10 @@ function Cart() {
       phoneNumber: formData.phoneNumber,
       type: formData.type,
       table: formData.table,
-      price: grossTotal,
+      bill: formData.bill,
+      price: (netTotal +
+      Math.round(netTotal * 0.05) -
+      Math.round(netTotal * (discount / 100))),
       date_time,
     };
     console.log(orderData); // Log order data for debugging
@@ -262,6 +265,23 @@ function Cart() {
       discount: "",
     });
     setDiscount(0);
+    fetch("http://localhost:5000/PosOrder", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(orderData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // Handle the response data here
+        console.log(data);
+        window.location.replace(data.url);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        // Handle the error, e.g., display an error message to the user
+      });
   };
 
   // Increment quantity of a specific order item
@@ -308,7 +328,7 @@ function Cart() {
       const orders = JSON.parse(localStorage.getItem("orders")) || [];
       if (menu.length === 0) {
         const response = await fetch(
-          "https://server-08ld.onrender.com/getMenu"
+          "http://localhost:5000/getMenu"
         );
         const jsonData = await response.json();
         setMenu(jsonData[0].menu);

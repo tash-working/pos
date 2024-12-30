@@ -94,8 +94,8 @@ function Navbar({ count }) {
 
   return (
     <nav
-      className="bg-gradient-to-r from-fuchsia-700 to-purple-900 
-    text-white  shadow-lg"
+      className="bg-gradient-to-r from-[#1c1d22] to-[#313b44] 
+    text-white shadow-lg"
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
@@ -118,7 +118,17 @@ function Navbar({ count }) {
           <div className="hidden md:flex items-center space-x-6">
             {/* Home Link */}
             
-            
+            <div>
+              <Link
+                to="/dashboard"
+                className="flex items-center space-x-2 
+                text-sm font-medium text-white 
+                hover:text-fuchsia-200 transition-colors"
+              >
+                <FaHome size={20} />
+                <span>Dashboard</span>
+              </Link>
+            </div>
 
             {/* Cart Link with Enhanced Counter */}
             <div
@@ -183,22 +193,7 @@ function Navbar({ count }) {
 
               {/* Mobile Menu Items */}
               <div className="space-y-6 w-full px-6">
-                <motion.div
-                  initial={{ opacity: 0, y: 50 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 }}
-                >
-                  <Link
-                    to="/"
-                    onClick={handleMenuItemClick}
-                    className="block text-2xl flex items-center justify-center space-x-3 
-                    hover:text-fuchsia-200 transition py-3 
-                    border-b border-white/20"
-                  >
-                    <FaHome />
-                    <span>Home</span>{" "}
-                  </Link>
-                </motion.div>
+              
 
                 <motion.div
                   initial={{ opacity: 0, y: 50 }}
@@ -217,6 +212,26 @@ function Navbar({ count }) {
                         {orderCount > 0 && <CartBadge count={orderCount} />}
                       </AnimatePresence>
                       <span>Cart</span>
+                    </div>
+                  </Link>
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 }}
+                >
+                  <Link
+                    to="/cart"
+                    onClick={handleMenuItemClick}
+                    className="block text-2xl flex items-center justify-center space-x-3 
+                    hover:text-fuchsia-200 transition relative py-3"
+                  >
+                    <div className="relative flex items-center">
+                      <FaShoppingCart className="mr-3" size={24} />
+                      <AnimatePresence>
+                        {orderCount > 0 && <CartBadge count={orderCount} />}
+                      </AnimatePresence>
+                      <span>Alu</span>
                     </div>
                   </Link>
                 </motion.div>

@@ -7,7 +7,7 @@ import Cart from "./components/cart/Cart";
 import History from "./components/category/history/History";
 import { Toaster } from "react-hot-toast";
 
-import POS from "./components/exm/POS";
+import Dashboard from "./components/exm/Dashboard";
 function App() {
 
 
@@ -17,8 +17,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Cart />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/history" element={<History />} />
-        <Route path="/pos" element={<POS />} />
+        <Route path="/dashboard/history" element={<History />} />
+        <Route path="/dashboard" element={<Dashboard />} />
 
         <Route path="/:category" element={<Category />} />
         <Route path="/:category/:singleItem" element={<SingleItem />} />

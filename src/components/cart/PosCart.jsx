@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 import Confetti from "react-confetti";
 import Items from "../category/items/Items";
 import ExtraItems from "../category/items/ExtraItems";
-const socket = io(`https://server-08ld.onrender.com/`);
+const socket = io(`http://localhost:5000/`);
 
 function PosCart() {
   const [orders, setOrders] = useState([]);
@@ -188,8 +188,6 @@ function PosCart() {
           console.error("Error fetching data:", error);
           // Handle the error, e.g., display an error message to the user
         });
-
-      
     } else {
       toast.error("Please enter a valid phone number", {
         duration: 3000,
@@ -1081,7 +1079,8 @@ function PosCart() {
                       ? "bg-blue-50 text-blue-700"
                       : "bg-gray-100 text-gray-800"
                   }
-                `}>
+                `}
+                              >
                                 {item.edited ? "Customized" : "Regular"}
                               </span>
                               <span className="ml-2 text-xs text-gray-500">
