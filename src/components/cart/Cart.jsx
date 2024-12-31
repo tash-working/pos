@@ -106,8 +106,6 @@ function Cart() {
   };
 
   const confirmOrder = () => {
-    // Check if any required form data is missing
-
     const date_time = handleClick(); // Generate timestamp
     const orderData = {
       orders,
@@ -123,94 +121,62 @@ function Cart() {
       date_time,
     };
     console.log(orderData); // Log order data for debugging
-
-    const printWindow = window.open("", "", "width=800,height=600");
+  
+    const printWindow = window.open("", "_blank", "width=800,height=600");
     printWindow.document.write(`
-       <html>
+      <html>
         <head>
           <title>Order Summary</title>
           <style>
-  body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    height: auto;
-    background-color: #f4f4f4;
-  }
-
-  .order-summary {
-    width: 100%;
-    max-width: 500px; /* Reduced width to save space */
-    margin: 0 auto;
-    background-color: white;
-    padding: 10px; /* Reduced padding */
-    border-radius: 6px; /* Slightly smaller border radius */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    page-break-before: always;
-  }
-
-  .order-summary h2 {
-    text-align: center;
-    font-size: 1.2rem; /* Reduced font size */
-    margin-bottom: 10px; /* Reduced margin */
-  }
-
-  .order-summary .flex {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 5px; /* Reduced margin */
-  }
-
-  .order-summary .font-bold {
-    font-weight: bold;
-    font-size: 0.9rem; /* Reduced font size */
-  }
-
-  .order-summary hr {
-    border: 1px solid #ddd;
-    margin: 10px 0; /* Reduced margin */
-  }
-
-  .order-summary p {
-    margin: 0;
-    font-size: 0.9rem; /* Reduced font size */
-  }
-
-  .order-summary .items-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 10px; /* Reduced margin */
-  }
-
-  .order-summary .items-table th,
-  .order-summary .items-table td {
-    padding: 4px 6px; /* Reduced padding */
-    border: 1px solid #ddd;
-    text-align: left;
-    font-size: 0.85rem; /* Reduced font size */
-  }
-
-  .order-summary .items-table th {
-    background-color: #f0f0f0;
-  }
-
-  @media print {
-    body {
-      height: auto;
-      background-color: white;
-      margin: 0;
-      padding: 0;
-    }
-    .order-summary {
-      max-width: 100%;
-      page-break-after: always;
-    }
-  }
-</style>
-
+            @media print {
+              body {
+                margin: 0;
+                padding: 0;
+                height: auto;
+                overflow: hidden;
+              }
+              .order-summary {
+                margin: 0;
+                padding: 0;
+                max-width: 100%;
+                page-break-after: avoid;
+                display: block;
+              }
+              hr {
+                margin: 5px 0;
+              }
+            }
+            body {
+              font-family: Arial, sans-serif;
+              margin: 0;
+              padding: 0;
+              display: flex;
+              justify-content: center;
+              align-items: flex-start;
+              height: auto;
+              background-color: white;
+            }
+            .order-summary {
+              width: 100%;
+              max-width: 500px;
+              margin: 0 auto;
+              background-color: white;
+              padding: 10px;
+              border-radius: 6px;
+              box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+            .order-summary h2 {
+              text-align: center;
+            }
+            .items-table {
+              width: 100%;
+              border-collapse: collapse;
+            }
+            .items-table th, .items-table td {
+              border: 1px solid #ddd;
+              padding: 5px;
+            }
+          </style>
         </head>
         <body>
           <div class="order-summary">
@@ -222,8 +188,6 @@ function Cart() {
             <h4>Bill Type: ${formData.bill}</h4>
             <h4>Guest phone: ${formData.phoneNumber}</h4>
             <h4>Order Time: ${date_time}</h4>
-
-            <!-- Ordered Items Table -->
             <table class="items-table">
               <thead>
                 <tr>
@@ -237,80 +201,47 @@ function Cart() {
                 ${orders
                   .map(
                     (item) => `
-                  <tr>
-                    <td>${item.name}</td>
-                    <td>${item.quantity}</td>
-                    <td>${item.price}৳</td>
-                    <td>${(item.quantity * item.price).toFixed(2)}৳</td>
-                  </tr>
-                `
+                    <tr>
+                      <td>${item.name}</td>
+                      <td>${item.quantity}</td>
+                      <td>${item.price}৳</td>
+                      <td>${(item.quantity * item.price).toFixed(2)}৳</td>
+                    </tr>
+                  `
                   )
                   .join("")}
               </tbody>
             </table>
-
             <hr />
-            <div class="flex">
-              <p>Net Total:</p>
-              <p class="font-bold text-indigo-600">${netTotal}৳</p>
-            </div>
+            <p>Net Total: ${netTotal}৳</p>
+            <p>VAT (5%): ${(netTotal * 0.05).toFixed(2)}৳</p>
+            <p>Discount: ${discount}% - ${(netTotal * (discount / 100)).toFixed(2)}৳</p>
+            <p>Gross Total: ${
+              (netTotal + Math.round(netTotal * 0.05)).toFixed(2) -
+              Math.round(netTotal * (discount / 100))
+            }৳ (Paid)</p>
             <hr />
-            <div class="flex">
-              <p>VAT - 5.00%:</p>
-              <p>${(netTotal * 0.05).toFixed(2)}৳</p>
-            </div>
-            <div class="flex">
-              <p>Auto Round:</p>
-              <p>${Math.round(netTotal * 0.05)}৳</p>
-            </div>
-            <hr />
-            <div class="flex">
-              <p>Discount:</p>
-              <p>${discount}% - ${netTotal * (discount / 100)}৳</p>
-            </div>
-            <hr />
-            <div class="flex font-bold">
-              <p>Gross Total:</p>
-              <p>${
-                (netTotal + Math.round(netTotal * 0.05)).toFixed(2) -
-                Math.round(netTotal * (discount / 100))
-              }৳(Paid)</p>
-            </div>
-            <div class="flex font-bold">
-              <p>MIDENUS POS</p>
-              <p>www.midenus.com</p>
-            </div>
+            <p>MIDENUS POS</p>
+            <p>www.midenus.com</p>
           </div>
         </body>
       </html>
     `);
     printWindow.document.close();
-
-    // Wait for the document to load and then invoke print
+  
     printWindow.onload = function () {
-      printWindow.print(); // Trigger the print dialog
-      printWindow.close(); // Close the print window after printing
+      printWindow.print();
+      printWindow.close();
     };
-
-    // Reset orders and update localStorage
+  
+    // Reset orders and form data
     const updatedOrders = [];
     setOrders(updatedOrders);
-    const totalQuantity = updatedOrders.reduce(
-      (acc, order) => acc + order.quantity,
-      0
-    );
-    setCount(totalQuantity);
+    setCount(0);
     localStorage.setItem("orders", JSON.stringify(updatedOrders));
-
-    // Show success toast and confetti
-    toast.success("Order placed successfully!", {
-      duration: 3000,
-      position: "top-center",
-    });
+    toast.success("Order placed successfully!", { duration: 3000, position: "top-center" });
     setShowConfetti(true);
     setTimeout(() => setShowConfetti(false), 5000);
-
-    // Reset form data
     setFormData({
       phoneNumber: "",
       type: "",
@@ -319,28 +250,23 @@ function Cart() {
       discount: "",
     });
     setDiscount(0);
-
+  
     // Send order data to the server
     fetch("https://server-08ld.onrender.com/PosOrder", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(orderData),
     })
       .then((response) => response.json())
       .then((data) => {
-        // Handle the response data here
         console.log(data);
         window.location.replace(data.url);
       })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-        // Handle the error, e.g., display an error message to the user
-      });
-
+      .catch((error) => console.error("Error fetching data:", error));
+  
     setShowModal(false);
   };
+  
 
   // Increment quantity of a specific order item
   const add = (index) => {
