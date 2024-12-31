@@ -129,7 +129,7 @@ function Cart() {
       <html>
         <head>
           <title>Order Summary</title>
-          <style>
+         <style>
   body, html {
     margin: 0;
     padding: 0;
@@ -137,6 +137,7 @@ function Cart() {
     width: 100%;
     font-family: Arial, sans-serif;
     background-color: white;
+    overflow: hidden; /* Prevent unnecessary scrolling or blank space */
   }
 
   .order-summary {
@@ -147,6 +148,7 @@ function Cart() {
     padding: 10px;
     border-radius: 6px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: inline-block; /* Ensure compact layout */
   }
 
   .order-summary h2, 
@@ -171,7 +173,7 @@ function Cart() {
 
   .order-summary hr {
     border: 1px solid #ddd;
-    margin: 10px 0;
+    margin: 5px 0; /* Reduced margin for compact layout */
   }
 
   .order-summary p {
@@ -201,6 +203,8 @@ function Cart() {
     body, html {
       margin: 0;
       padding: 0;
+      height: auto;
+      overflow: hidden; /* Prevent unnecessary blank space */
     }
 
     .order-summary {
@@ -208,7 +212,8 @@ function Cart() {
       padding: 0;
       width: 100%;
       max-width: 100%;
-      page-break-after: avoid;
+      page-break-after: avoid; /* Prevent page breaks */
+      display: inline-block; /* Compact layout */
     }
 
     .order-summary hr {
@@ -220,6 +225,7 @@ function Cart() {
     }
   }
 </style>
+
 
         </head>
         <body>
