@@ -130,77 +130,98 @@ function Cart() {
         <head>
           <title>Order Summary</title>
           <style>
-            body {
-              font-family: Arial, sans-serif;
-              margin: 0;
-              padding: 0;
-              display: flex;
-              justify-content: center;
-              align-items: flex-start;
-              height: auto;
-              background-color: #f4f4f4;
-            }
-            .order-summary {
-              width: 100%;
-              max-width: 600px;
-              margin: 0 auto;
-              background-color: white;
-              padding: 20px;
-              border-radius: 8px;
-              box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-              page-break-before: always;
-            }
-            .order-summary h2 {
-              text-align: center;
-              font-size: 1.5rem;
-              margin-bottom: 20px;
-            }
-            .order-summary .flex {
-              display: flex;
-              justify-content: space-between;
-              margin-bottom: 10px;
-            }
-            .order-summary .font-bold {
-              font-weight: bold;
-            }
-            .order-summary hr {
-              border: 1px solid #ddd;
-              margin: 20px 0;
-            }
-            .order-summary p {
-              margin: 0;
-            }
-            .order-summary .items-table {
-              width: 100%;
-              border-collapse: collapse;
-              margin-bottom: 20px;
-            }
-            .order-summary .items-table th,
-            .order-summary .items-table td {
-              padding: 8px;
-              border: 1px solid #ddd;
-              text-align: left;
-            }
-            .order-summary .items-table th {
-              background-color: #f0f0f0;
-            }
-            @media print {
-              body {
-                height: auto;
-                background-color: white;
-                margin: 0;
-                padding: 0;
-              }
-              .order-summary {
-                max-width: 100%;
-                page-break-after: always;
-              }
-            }
-          </style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: auto;
+    background-color: #f4f4f4;
+  }
+
+  .order-summary {
+    width: 100%;
+    max-width: 500px; /* Reduced width to save space */
+    margin: 0 auto;
+    background-color: white;
+    padding: 10px; /* Reduced padding */
+    border-radius: 6px; /* Slightly smaller border radius */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    page-break-before: always;
+  }
+
+  .order-summary h2 {
+    text-align: center;
+    font-size: 1.2rem; /* Reduced font size */
+    margin-bottom: 10px; /* Reduced margin */
+  }
+
+  .order-summary .flex {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px; /* Reduced margin */
+  }
+
+  .order-summary .font-bold {
+    font-weight: bold;
+    font-size: 0.9rem; /* Reduced font size */
+  }
+
+  .order-summary hr {
+    border: 1px solid #ddd;
+    margin: 10px 0; /* Reduced margin */
+  }
+
+  .order-summary p {
+    margin: 0;
+    font-size: 0.9rem; /* Reduced font size */
+  }
+
+  .order-summary .items-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 10px; /* Reduced margin */
+  }
+
+  .order-summary .items-table th,
+  .order-summary .items-table td {
+    padding: 4px 6px; /* Reduced padding */
+    border: 1px solid #ddd;
+    text-align: left;
+    font-size: 0.85rem; /* Reduced font size */
+  }
+
+  .order-summary .items-table th {
+    background-color: #f0f0f0;
+  }
+
+  @media print {
+    body {
+      height: auto;
+      background-color: white;
+      margin: 0;
+      padding: 0;
+    }
+    .order-summary {
+      max-width: 100%;
+      page-break-after: always;
+    }
+  }
+</style>
+
         </head>
         <body>
           <div class="order-summary">
-            <h2>Order Summary</h2>
+            <h2>VELVET BITES</h2>
+            <h5>House NO-52, Road-1, Sector-3, Uttara, Dhaka-1230</h5>
+            <h5>+880 1334-738387</h5>
+            <h3>Guest Bill, Table No: ${formData.table}</h3>
+            <h4>Order Type: ${formData.type}</h4>
+            <h4>Bill Type: ${formData.bill}</h4>
+            <h4>Guest phone: ${formData.phoneNumber}</h4>
+            <h4>Order Time: ${date_time}</h4>
 
             <!-- Ordered Items Table -->
             <table class="items-table">
@@ -213,7 +234,7 @@ function Cart() {
                 </tr>
               </thead>
               <tbody>
-                ${cartItems
+                ${orders
                   .map(
                     (item) => `
                   <tr>
@@ -243,9 +264,21 @@ function Cart() {
               <p>${Math.round(netTotal * 0.05)}৳</p>
             </div>
             <hr />
+            <div class="flex">
+              <p>Discount:</p>
+              <p>${discount}% - ${netTotal * (discount / 100)}৳</p>
+            </div>
+            <hr />
             <div class="flex font-bold">
               <p>Gross Total:</p>
-              <p>${(netTotal + Math.round(netTotal * 0.05)).toFixed(2)}৳</p>
+              <p>${
+                (netTotal + Math.round(netTotal * 0.05)).toFixed(2) -
+                Math.round(netTotal * (discount / 100))
+              }৳(Paid)</p>
+            </div>
+            <div class="flex font-bold">
+              <p>MIDENUS POS</p>
+              <p>www.midenus.com</p>
             </div>
           </div>
         </body>
