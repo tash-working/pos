@@ -33,21 +33,22 @@ function Cart() {
   // Handle input changes in the form
   const handleChange = (event) => {
     const { name, value } = event.target;
-  
+
     // Assuming netTotal is defined somewhere in your code
     const netTotal = 1000; // Replace with actual netTotal value
-  
+
     // If the discount field is being changed
     if (name === "discount") {
       console.log(value);
       setDiscount(value);
-  
+
       // Ensure netTotal is available before using it
       const discountAmount = Math.round(netTotal * (value / 100));
-      const grossTotal = netTotal + Math.round(netTotal * 0.05) - discountAmount;
+      const grossTotal =
+        netTotal + Math.round(netTotal * 0.05) - discountAmount;
       setGrossTotal(grossTotal);
     }
-  
+
     // If the value is "table", set table to "front1"
     if (name === "type" && value === "table") {
       setFormData({
@@ -69,11 +70,9 @@ function Cart() {
         [name]: value,
       });
     }
-  
+
     console.log(name); // For debugging purposes, can be removed later
   };
-  
-
 
   // Generate a timestamp string for the current date and time
   const handleClick = () => {
@@ -90,8 +89,17 @@ function Cart() {
   // Handle form submission to place an order
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (!formData.phoneNumber || !formData.type || !formData.table || !formData.bill || !formData.discount || orders.length<=0) {
-      alert("Please fill in all the required fields before submitting the order.");
+    if (
+      !formData.phoneNumber ||
+      !formData.type ||
+      !formData.table ||
+      !formData.bill ||
+      !formData.discount ||
+      orders.length <= 0
+    ) {
+      alert(
+        "Please fill in all the required fields before submitting the order."
+      );
       return; // Stop the function from proceeding if any field is empty
     }
     setShowModal(true);
@@ -99,8 +107,7 @@ function Cart() {
 
   const confirmOrder = () => {
     // Check if any required form data is missing
-    
-  
+
     const date_time = handleClick(); // Generate timestamp
     const orderData = {
       orders,
@@ -109,99 +116,111 @@ function Cart() {
       discount: formData.discount,
       table: formData.table,
       bill: formData.bill,
-      price: (netTotal +
+      price:
+        netTotal +
         Math.round(netTotal * 0.05) -
-        Math.round(netTotal * (discount / 100))),
+        Math.round(netTotal * (discount / 100)),
       date_time,
     };
     console.log(orderData); // Log order data for debugging
-  
+
     const printWindow = window.open("", "", "width=800,height=600");
     printWindow.document.write(`
       <html>
         <head>
           <title>Order Summary</title>
           <style>
-            body {
-              font-family: Arial, sans-serif;
-              margin: 0;
-              padding: 0;
-              display: flex;
-              justify-content: center;
-              align-items: flex-start;
-              height: auto;
-              background-color: #f4f4f4;
-            }
-  
-            .order-summary {
-              width: 100%;
-              max-width: 500px; /* Reduced width to save space */
-              margin: 0 auto;
-              background-color: white;
-              padding: 10px; /* Reduced padding */
-              border-radius: 6px; /* Slightly smaller border radius */
-              box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-              page-break-before: always;
-            }
-  
-            .order-summary h2 {
-              text-align: center;
-              font-size: 1.2rem; /* Reduced font size */
-              margin-bottom: 10px; /* Reduced margin */
-            }
-  
-            .order-summary .flex {
-              display: flex;
-              justify-content: space-between;
-              margin-bottom: 5px; /* Reduced margin */
-            }
-  
-            .order-summary .font-bold {
-              font-weight: bold;
-              font-size: 0.9rem; /* Reduced font size */
-            }
-  
-            .order-summary hr {
-              border: 1px solid #ddd;
-              margin: 10px 0; /* Reduced margin */
-            }
-  
-            .order-summary p {
-              margin: 0;
-              font-size: 0.9rem; /* Reduced font size */
-            }
-  
-            .order-summary .items-table {
-              width: 100%;
-              border-collapse: collapse;
-              margin-bottom: 10px; /* Reduced margin */
-            }
-  
-            .order-summary .items-table th,
-            .order-summary .items-table td {
-              padding: 4px 6px; /* Reduced padding */
-              border: 1px solid #ddd;
-              text-align: left;
-              font-size: 0.85rem; /* Reduced font size */
-            }
-  
-            .order-summary .items-table th {
-              background-color: #f0f0f0;
-            }
-  
-            @media print {
-              body {
-                height: auto;
-                background-color: white;
-                margin: 0;
-                padding: 0;
-              }
-              .order-summary {
-                max-width: 100%;
-                page-break-after: always;
-              }
-            }
-          </style>
+  body, html {
+    margin: 0;
+    padding: 0;
+    height: auto;
+    width: 100%;
+    font-family: Arial, sans-serif;
+    background-color: white;
+  }
+
+  .order-summary {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 10px;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .order-summary h2, 
+  .order-summary h3, 
+  .order-summary h4, 
+  .order-summary h5 {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+  }
+
+  .order-summary .flex {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+  }
+
+  .order-summary .font-bold {
+    font-weight: bold;
+    font-size: 0.9rem;
+  }
+
+  .order-summary hr {
+    border: 1px solid #ddd;
+    margin: 10px 0;
+  }
+
+  .order-summary p {
+    margin: 0;
+    font-size: 0.9rem;
+  }
+
+  .order-summary .items-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+  }
+
+  .order-summary .items-table th,
+  .order-summary .items-table td {
+    padding: 4px 6px;
+    border: 1px solid #ddd;
+    text-align: left;
+    font-size: 0.85rem;
+  }
+
+  .order-summary .items-table th {
+    background-color: #f0f0f0;
+  }
+
+  @media print {
+    body, html {
+      margin: 0;
+      padding: 0;
+    }
+
+    .order-summary {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      max-width: 100%;
+      page-break-after: avoid;
+    }
+
+    .order-summary hr {
+      margin: 5px 0;
+    }
+
+    .order-summary .flex {
+      margin-bottom: 3px;
+    }
+  }
+</style>
+
         </head>
         <body>
           <div class="order-summary">
@@ -226,8 +245,8 @@ function Cart() {
               </thead>
               <tbody>
                 ${orders
-      .map(
-        (item) => `
+                  .map(
+                    (item) => `
                   <tr>
                     <td>${item.name}</td>
                     <td>${item.quantity}</td>
@@ -235,8 +254,8 @@ function Cart() {
                     <td>${(item.quantity * item.price).toFixed(2)}৳</td>
                   </tr>
                 `
-      )
-      .join("")}
+                  )
+                  .join("")}
               </tbody>
             </table>
   
@@ -262,9 +281,10 @@ function Cart() {
             <hr />
             <div class="flex font-bold">
               <p>Gross Total:</p>
-              <p>${(netTotal + Math.round(netTotal * 0.05)).toFixed(2) -
-    Math.round(netTotal * (discount / 100))
-    }৳(Paid)</p>
+              <p>${
+                (netTotal + Math.round(netTotal * 0.05)).toFixed(2) -
+                Math.round(netTotal * (discount / 100))
+              }৳(Paid)</p>
             </div>
             <div class="flex font-bold">
               <p>MIDENUS POS</p>
@@ -275,13 +295,13 @@ function Cart() {
       </html>
     `);
     printWindow.document.close();
-  
+
     // Wait for the document to load and then invoke print
     printWindow.onload = function () {
       printWindow.print(); // Trigger the print dialog
       printWindow.close(); // Close the print window after printing
     };
-  
+
     // Reset orders and update localStorage
     const updatedOrders = [];
     setOrders(updatedOrders);
@@ -291,7 +311,7 @@ function Cart() {
     );
     setCount(totalQuantity);
     localStorage.setItem("orders", JSON.stringify(updatedOrders));
-  
+
     // Show success toast and confetti
     toast.success("Order placed successfully!", {
       duration: 3000,
@@ -299,7 +319,7 @@ function Cart() {
     });
     setShowConfetti(true);
     setTimeout(() => setShowConfetti(false), 5000);
-  
+
     // Reset form data
     setFormData({
       phoneNumber: "",
@@ -309,7 +329,7 @@ function Cart() {
       discount: "",
     });
     setDiscount(0);
-  
+
     // Send order data to the server
     fetch("https://server-08ld.onrender.com/PosOrder", {
       method: "POST",
@@ -328,10 +348,9 @@ function Cart() {
         console.error("Error fetching data:", error);
         // Handle the error, e.g., display an error message to the user
       });
-  
+
     setShowModal(false);
   };
-  
 
   // Increment quantity of a specific order item
   const add = (index) => {
@@ -642,7 +661,7 @@ function Cart() {
                     onChange={handleChange}
                     className="w-full rounded-lg border border-gray-300 p-2 focus:ring focus:ring-indigo-200 focus:outline-none"
                   >
-                     <option value="">Select an opton</option>
+                    <option value="">Select an opton</option>
                     <option value="table">Table</option>
                     <option value="takeAway">Take Away</option>
                     <option value="online">Online</option>
@@ -700,14 +719,12 @@ function Cart() {
           </div>
 
           <button
-  type="submit"
-  className="mt-6 w-full bg-[#313b44] text-white py-2 px-4 rounded-lg hover:bg-[#313b50] hover:shadow-indigo-600/25 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 active:scale-95 transition-all duration-200"
->
-  Place Order
-</button>
-
+            type="submit"
+            className="mt-6 w-full bg-[#313b44] text-white py-2 px-4 rounded-lg hover:bg-[#313b50] hover:shadow-indigo-600/25 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 active:scale-95 transition-all duration-200"
+          >
+            Place Order
+          </button>
         </form>
-
       </div>
 
       {showModal && (
