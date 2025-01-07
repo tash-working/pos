@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../navbar/Navbar";
 import { Link } from "react-router-dom";
-import {FaMoneyBill ,FaMobileAlt,  FaMoneyCheck,FaExclamationCircle,FaArrowRight  } from "react-icons/fa";
-
+import {
+  FaMoneyBill,
+  FaMobileAlt,
+  FaMoneyCheck,
+  FaExclamationCircle,
+  FaArrowRight,
+} from "react-icons/fa";
 
 function History() {
   const [sentOrders, setSentOrders] = useState([]);
@@ -12,12 +17,12 @@ function History() {
   const [card, setCard] = useState([]);
   const [mb, setMb] = useState([]);
   const [due, setDue] = useState([]);
+  const [id, setId] = useState(null);
   const printId = (e) => {
     console.log(e.target.id);
     if (e.target.id === "cash") {
       setSelectedType("cash");
       console.log(cash);
-
     }
     if (e.target.id === "card") {
       setSelectedType("card");
@@ -31,6 +36,8 @@ function History() {
   };
 
   useEffect(() => {
+    const id = JSON.parse(localStorage.getItem("id"));
+    setId(id); // Returns null if no user or parsing fails
     let orders = JSON.parse(localStorage.getItem(`orderHistory`)) || [];
     // orders = orders.slice().reverse()
 
@@ -66,16 +73,15 @@ function History() {
       <nav className="border-b bg-white">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex space-x-8">
-
             <Link
-              to="/dashboard/history"
+              to={`/${id}/dashboard/history`}
               className="border-b-2 border-indigo-500 py-4 px-1"
             >
               <span className="text-sm font-medium text-indigo-600">
                 Order History
               </span>
             </Link>
-            <Link to="/dashboard/history_items" className="py-4 px-1">
+            <Link to={`/${id}/dashboard/history_items`} className="py-4 px-1">
               <span className="text-sm font-medium text-gray-500 hover:text-gray-700">
                 Items History
               </span>
@@ -156,13 +162,14 @@ function History() {
 
       {/* Order History */}
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-
         <h1 className="text-transparent bg-clip-text bg-gradient-to-r from-gray-800 via-black to-gray-900 text-4xl">
           {selectedType}
         </h1>
         <hr />
         <div className="font-sans p-6 bg-gray-100">
-          <h2 className="text-3xl font-bold text-center mb-8">Orders Summary</h2>
+          <h2 className="text-3xl font-bold text-center mb-8">
+            Orders Summary
+          </h2>
           {sentOrders.map((order, index) => (
             <div key={index}>
               {order.bill === selectedType ? (
@@ -173,33 +180,51 @@ function History() {
                   <table className="w-full bg-white border-collapse">
                     <tbody>
                       <tr className="border-b">
-                        <th className="p-4 bg-[#313b44] text-white text-left">Phone</th>
+                        <th className="p-4 bg-[#313b44] text-white text-left">
+                          Phone
+                        </th>
                         <td className="p-4">{order.phoneNumber}</td>
                       </tr>
                       <tr className="border-b">
-                        <th className="p-4 bg-[#313b44] text-white text-left">Type</th>
+                        <th className="p-4 bg-[#313b44] text-white text-left">
+                          Type
+                        </th>
                         <td className="p-4">{order.type}</td>
                       </tr>
                       <tr className="border-b">
-                        <th className="p-4 bg-[#313b44] text-white text-left">Table</th>
+                        <th className="p-4 bg-[#313b44] text-white text-left">
+                          Table
+                        </th>
                         <td className="p-4">{order.table}</td>
                       </tr>
                       <tr className="border-b">
-                        <th className="p-4 bg-[#313b44] text-white text-left">Payment</th>
+                        <th className="p-4 bg-[#313b44] text-white text-left">
+                          Payment
+                        </th>
                         <td className="p-4">{order.bill}</td>
                       </tr>
                       <tr className="border-b">
-                        <th className="p-4 bg-[#313b44] text-white text-left">Discount</th>
+                        <th className="p-4 bg-[#313b44] text-white text-left">
+                          Discount
+                        </th>
                         <td className="p-4 text-red-600 font-bold">
-                          {order.discount ? `${order.discount}%` : "No Discount"}
+                          {order.discount
+                            ? `${order.discount}%`
+                            : "No Discount"}
                         </td>
                       </tr>
                       <tr className="border-b">
-                        <th className="p-4 bg-[#313b44] text-white text-left">Total</th>
-                        <td className="p-4 text-[#1c1d22] font-bold">{order.price} TK (with 5% VAT added)</td>
+                        <th className="p-4 bg-[#313b44] text-white text-left">
+                          Total
+                        </th>
+                        <td className="p-4 text-[#1c1d22] font-bold">
+                          {order.price} TK (with 5% VAT added)
+                        </td>
                       </tr>
                       <tr>
-                        <th className="p-4 bg-[#313b44] text-white text-left">Date</th>
+                        <th className="p-4 bg-[#313b44] text-white text-left">
+                          Date
+                        </th>
                         <td className="p-4">{order.date_time}</td>
                       </tr>
                     </tbody>
@@ -207,7 +232,9 @@ function History() {
 
                   {order.orders.length > 0 && (
                     <>
-                      <h4 className="text-xl font-bold mt-6 mb-4">Order Items</h4>
+                      <h4 className="text-xl font-bold mt-6 mb-4">
+                        Order Items
+                      </h4>
                       <table className="w-full bg-white shadow-md rounded-lg overflow-hidden">
                         <thead>
                           <tr className="bg-[#313b44] text-white">
@@ -245,9 +272,6 @@ function History() {
             </div>
           ))}
         </div>
-
-
-
       </div>
     </div>
   );

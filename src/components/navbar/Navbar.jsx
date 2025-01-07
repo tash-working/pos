@@ -1,15 +1,22 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
-import { FaHome, FaShoppingCart, FaBars, FaTimes, FaTachometerAlt,FaMoneyBill  } from "react-icons/fa";
+import {
+  FaHome,
+  FaShoppingCart,
+  FaBars,
+  FaTimes,
+  FaTachometerAlt,
+  FaMoneyBill,
+} from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { BiGridAlt } from "react-icons/bi";
-import { AiOutlineDashboard } from "react-icons/ai";
+import { AiOutlineSetting } from "react-icons/ai";
 import { motion, AnimatePresence } from "framer-motion";
-import PosCart from "../cart/PosCart";
 
 function Navbar({ count }) {
   const [orders, setOrders] = useState([]);
   const [orderCount, setOrderCount] = useState(0);
+  const [id, setId] = useState(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const mobileMenuRef = useRef(null);
   const prevOrderCount = useRef(orderCount);
@@ -25,6 +32,8 @@ function Navbar({ count }) {
   };
 
   useEffect(() => {
+    const id = JSON.parse(localStorage.getItem("id"));
+    setId(id); // Returns null if no user or parsing fails
     getData();
   }, [count]);
 
@@ -104,7 +113,7 @@ function Navbar({ count }) {
         <div className="flex h-16 items-center justify-between">
           {/* Logo Section */}
           <Link
-            to="/"
+            to={`/${id}`}
             className="flex items-center space-x-3 
             transform hover:scale-105 transition-transform"
           >
@@ -115,43 +124,50 @@ function Navbar({ count }) {
               </span>
             </span>
           </Link>
-          
+
+          {/* Cart Link with Enhanced Counter */}
+          <div
+            className="flex items-center space-x-2 
+              text-sm font-medium text-white 
+              hover:text-fuchsia-200 transition-colors group relative"
+          >
+            <div className="relative flex items-center">
+              <FaShoppingCart
+                className="mr-2 group-hover:scale-110 transition"
+                size={20}
+              />
+              <AnimatePresence>
+                {orderCount > 0 && <CartBadge count={orderCount} />}
+              </AnimatePresence>
+              <span className="ml-1">Cart</span>
+            </div>
+          </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-6">
             {/* Home Link */}
-            
+
             <div>
               <Link
-                to="/dashboard"
+                to={`/${id}/dashboard`}
                 className="flex items-center space-x-2 
                 text-sm font-medium text-white 
                 hover:text-fuchsia-200 transition-colors"
               >
-                
                 <BiGridAlt size={20} />
-               
+
                 <span>Dashboard</span>
               </Link>
             </div>
-
-            {/* Cart Link with Enhanced Counter */}
-            <div
-             
-              className="flex items-center space-x-2 
-              text-sm font-medium text-white 
-              hover:text-fuchsia-200 transition-colors group relative"
-            >
-              <div className="relative flex items-center">
-                <FaShoppingCart
-                  className="mr-2 group-hover:scale-110 transition"
-                  size={20}
-                />
-                <AnimatePresence>
-                  {orderCount > 0 && <CartBadge count={orderCount} />}
-                </AnimatePresence>
-                <span className="ml-1">Cart</span>
-              </div>
+            <div>
+              <Link
+                to={`/${id}/settings`}
+                className="flex items-center space-x-2 
+                text-sm font-medium text-white 
+                hover:text-fuchsia-200 transition-colors"
+              >
+                <AiOutlineSetting size={20} />
+              </Link>
             </div>
           </div>
 
@@ -198,15 +214,13 @@ function Navbar({ count }) {
 
               {/* Mobile Menu Items */}
               <div className="space-y-6 w-full px-6">
-              
-
                 <motion.div
                   initial={{ opacity: 0, y: 50 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 }}
                 >
                   <Link
-                    to="/cart"
+                    to={`/${id}`}
                     onClick={handleMenuItemClick}
                     className="block text-2xl flex items-center justify-center space-x-3 
                     hover:text-fuchsia-200 transition relative py-3"
@@ -217,26 +231,6 @@ function Navbar({ count }) {
                         {orderCount > 0 && <CartBadge count={orderCount} />}
                       </AnimatePresence>
                       <span>Cart</span>
-                    </div>
-                  </Link>
-                </motion.div>
-                <motion.div
-                  initial={{ opacity: 0, y: 50 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2 }}
-                >
-                  <Link
-                    to="/cart"
-                    onClick={handleMenuItemClick}
-                    className="block text-2xl flex items-center justify-center space-x-3 
-                    hover:text-fuchsia-200 transition relative py-3"
-                  >
-                    <div className="relative flex items-center">
-                      <FaShoppingCart className="mr-3" size={24} />
-                      <AnimatePresence>
-                        {orderCount > 0 && <CartBadge count={orderCount} />}
-                      </AnimatePresence>
-                      <span>Alu</span>
                     </div>
                   </Link>
                 </motion.div>

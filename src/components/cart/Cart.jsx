@@ -15,6 +15,8 @@ function Cart() {
   const [grossTotal, setGrossTotal] = useState(0);
   const [menu, setMenu] = useState([]);
   const [showConfetti, setShowConfetti] = useState(false);
+  const [id, setId] = useState("");
+
   const [formData, setFormData] = useState({
     phoneNumber: "",
     type: "",
@@ -121,7 +123,7 @@ function Cart() {
       date_time,
     };
     console.log(orderData); // Log order data for debugging
-  
+
     const printWindow = window.open("", "_blank", "width=800,height=600");
     printWindow.document.write(`
       <html>
@@ -215,7 +217,9 @@ function Cart() {
             <hr />
             <p>Net Total: ${netTotal}৳</p>
             <p>VAT (5%): ${(netTotal * 0.05).toFixed(2)}৳</p>
-            <p>Discount: ${discount}% - ${(netTotal * (discount / 100)).toFixed(2)}৳</p>
+            <p>Discount: ${discount}% - ${(netTotal * (discount / 100)).toFixed(
+      2
+    )}৳</p>
             <p>Gross Total: ${
               (netTotal + Math.round(netTotal * 0.05)).toFixed(2) -
               Math.round(netTotal * (discount / 100))
@@ -228,18 +232,21 @@ function Cart() {
       </html>
     `);
     printWindow.document.close();
-  
+
     printWindow.onload = function () {
       printWindow.print();
       printWindow.close();
     };
-  
+
     // Reset orders and form data
     const updatedOrders = [];
     setOrders(updatedOrders);
     setCount(0);
     localStorage.setItem("orders", JSON.stringify(updatedOrders));
-    toast.success("Order placed successfully!", { duration: 3000, position: "top-center" });
+    toast.success("Order placed successfully!", {
+      duration: 3000,
+      position: "top-center",
+    });
     setShowConfetti(true);
     setTimeout(() => setShowConfetti(false), 5000);
     setFormData({
@@ -250,9 +257,9 @@ function Cart() {
       discount: "",
     });
     setDiscount(0);
-  
+
     // Send order data to the server
-    fetch("https://server-08ld.onrender.com/PosOrder", {
+    fetch(`https://server-08ld.onrender.com/PosOrder/${id}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(orderData),
@@ -263,10 +270,9 @@ function Cart() {
         window.location.replace(data.url);
       })
       .catch((error) => console.error("Error fetching data:", error));
-  
+
     setShowModal(false);
   };
-  
 
   // Increment quantity of a specific order item
   const add = (index) => {
@@ -308,11 +314,13 @@ function Cart() {
 
   // Fetch menu and order data from localStorage or API
   const getItems = async () => {
+    const id = JSON.parse(localStorage.getItem("id"));
+    setId(id); // Returns null if no user or parsing fails
     try {
       const orders = JSON.parse(localStorage.getItem("orders")) || [];
       if (menu.length === 0) {
         const response = await fetch(
-          "https://server-08ld.onrender.com/getMenu"
+          `https://server-08ld.onrender.com/getMenu/${id}`
         );
         const jsonData = await response.json();
         setMenu(jsonData[0].menu);
@@ -368,321 +376,323 @@ function Cart() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {showConfetti && (
-        <Confetti
-          width={window.innerWidth}
-          height={window.innerHeight}
-          recycle={false}
-          numberOfPieces={500}
-        />
-      )}
-      <Navbar count={count} />
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-8">
-          {/* Display order items */}
-          <div className="flex-grow space-y-4">
-            {orders.map((order, index) => (
-              <div
-                key={index}
-                className="rounded-lg bg-white p-4 sm:p-6 shadow-sm border m-2"
-              >
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-6">
-                  <div className="flex gap-4 sm:gap-6">
-                    <img
-                      src={order.imageUrl}
-                      alt={order.name}
-                      className="h-20 w-20 sm:h-24 sm:w-24 rounded-md object-cover flex-shrink-0"
-                    />
-                    <div className="space-y-2">
-                      <h3 className="text-base sm:text-lg font-medium text-gray-900 line-clamp-2">
-                        {order.name}
-                      </h3>
-                      <span className="inline-flex rounded-full bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700">
-                        {order.edited ? "Customized" : "Regular"}
-                      </span>
-                      <p className="text-base sm:text-lg font-medium text-gray-900">
-                        ৳{order.price * order.quantity}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-end sm:justify-center gap-4 mt-4 sm:mt-0">
-                    <div className="flex items-center gap-3">
-                      {/* Decrease quantity button */}
-                      <button
-                        onClick={() => minus(index)}
-                        className="rounded-full bg-gray-100 p-2 text-gray-600 hover:bg-gray-200 transition-colors"
-                      >
-                        <span className="sr-only">Decrease quantity</span>
-                        <svg
-                          className="h-4 w-4 sm:h-5 sm:w-5"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M20 12H4"
-                          />
-                        </svg>
-                      </button>
-                      <span className="text-gray-900 w-8 text-center">
-                        {order.quantity}
-                      </span>
-                      {/* Increase quantity button */}
-                      <button
-                        onClick={() => add(index)}
-                        className="rounded-full bg-gray-100 p-2 text-gray-600 hover:bg-gray-200 transition-colors"
-                      >
-                        <span className="sr-only">Increase quantity</span>
-                        <svg
-                          className="h-4 w-4 sm:h-5 sm:w-5"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M12 6v12m6-6H6"
-                          />
-                        </svg>
-                      </button>
-                    </div>
-                    {/* Remove item button */}
-                    <button
-                      onClick={() => deleteItem(index)}
-                      className="rounded-full bg-red-50 p-2 text-red-600 hover:bg-red-100 transition-colors ml-2"
-                    >
-                      <span className="sr-only">Remove item</span>
-                      <svg
-                        className="h-4 w-4 sm:h-5 sm:w-5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                        />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          {/* Order summary section */}
-          <div>
-            <div>
-              <div className="flex-none max-w-md bg-white rounded-lg shadow-lg p-6 space-y-4">
-                <h2 className="text-xl font-semibold text-gray-800 text-center">
-                  Order Summary
-                </h2>
-                <div className="flex justify-between items-center">
-                  <p className="text-gray-700">Net Total:</p>
-                  <p className="font-bold text-lg text-indigo-600">
-                    {netTotal}৳
-                  </p>
-                </div>
-                <hr className="border-gray-300" />
-                <div className="flex justify-between items-center">
-                  <p className="text-gray-700">VAT - 5.00%:</p>
-                  <p className="text-gray-600">
-                    {(netTotal * 0.05).toFixed(2)}৳
-                  </p>
-                </div>
-                <div className="flex justify-between items-center">
-                  <p className="text-gray-700">Auto Round:</p>
-                  <p className="text-gray-600">
-                    {Math.round(netTotal * 0.05)}৳
-                  </p>
-                </div>
-                <hr className="border-gray-300" />
-                <hr className="border-gray-300" />
-                <div className="flex justify-between items-center">
-                  <p className="text-gray-700">Discount -</p>
-                  <p className="text-gray-600">
-                    {discount}%- {netTotal * (discount / 100)}৳
-                  </p>
-                </div>
-                <div className="flex justify-between items-center">
-                  <p className="text-gray-700">Auto Round:</p>
-                  <p className="text-gray-600">
-                    {Math.round(netTotal * (discount / 100))}৳
-                  </p>
-                </div>
-                <hr className="border-gray-300" />
-                <div className="flex justify-between items-center font-bold">
-                  <p className="text-gray-700">Gross Total:</p>
-                  <p className="text-lg text-[#1c1d22]">
-                    {netTotal +
-                      Math.round(netTotal * 0.05) -
-                      Math.round(netTotal * (discount / 100))}
-                    ৳
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          {/* Extras section */}
-          <div className="mx-auto px-4 sm:px-6 lg:px-8 mt-8 max-h-[500px] overflow-auto">
-            <div className="grid grid-cols-1 gap-6 sm:gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-1">
-              {extras.length >= 0 ? (
-                extras.map((item) => (
-                  <ExtraItems
-                    getCount={setCount}
-                    key={item.urlName}
-                    item={item}
-                    category={item.category}
-                  />
-                ))
-              ) : (
-                <p>Loading Items...</p>
-              )}
-            </div>
-          </div>
-        </div>
-        {/* Order information form */}
-        <form
-          onSubmit={handleSubmit}
-          className="mx-auto mt-8 max-w-3xl rounded-xl bg-white p-8 shadow-lg mb-8"
-        >
-          <div className="grid gap-8 md:grid-cols-2">
-            {[
-              "phoneNumber", // Phone number input field
-              "type", // Order type input field
-              "table", // Table number input field
-              "discount", // Discount input field
-              "bill", // Bill payment type input field
-            ].map((field) => (
-              <div key={field} className="relative">
-                <label
-                  htmlFor={field}
-                  className="absolute -top-2 left-2 bg-white px-1 text-xs font-medium text-gray-600"
+    <div>
+      <div className="min-h-screen bg-gray-50">
+        {showConfetti && (
+          <Confetti
+            width={window.innerWidth}
+            height={window.innerHeight}
+            recycle={false}
+            numberOfPieces={500}
+          />
+        )}
+        <Navbar count={count} />
+        <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+          <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-8">
+            {/* Display order items */}
+            <div className="flex-grow space-y-4">
+              {orders.map((order, index) => (
+                <div
+                  key={index}
+                  className="rounded-lg bg-white p-4 sm:p-6 shadow-sm border m-2"
                 >
-                  {field.charAt(0).toUpperCase() + field.slice(1)}
-                </label>
-
-                {field === "type" ? (
-                  <select
-                    name={field}
-                    id={field}
-                    value={formData[field]}
-                    onChange={handleChange}
-                    className="w-full rounded-lg border border-gray-300 p-2 focus:ring focus:ring-indigo-200 focus:outline-none"
-                  >
-                    <option value="">Select an opton</option>
-                    <option value="table">Table</option>
-                    <option value="takeAway">Take Away</option>
-                    <option value="online">Online</option>
-                  </select>
-                ) : field === "table" && formData.type === "table" ? (
-                  <select
-                    name={field}
-                    id={field}
-                    value={formData[field]}
-                    onChange={handleChange}
-                    className="w-full rounded-lg border border-gray-300 p-2 focus:ring focus:ring-indigo-200 focus:outline-none"
-                  >
-                    <optgroup label="Front">
-                      <option value="front1">Front 1</option>
-                      <option value="front2">Front 2</option>
-                      <option value="front3">Front 3</option>
-                    </optgroup>
-                    <optgroup label="Back">
-                      <option value="back1">Back 1</option>
-                      <option value="back2">Back 2</option>
-                      <option value="back3">Back 3</option>
-                    </optgroup>
-                    <optgroup label="Smoke">
-                      <option value="smoke1">Smoke 1</option>
-                      <option value="smoke2">Smoke 2</option>
-                      <option value="smoke3">Smoke 3</option>
-                    </optgroup>
-                  </select>
-                ) : field === "bill" ? (
-                  <select
-                    name={field}
-                    id={field}
-                    value={formData[field]}
-                    onChange={handleChange}
-                    className="w-full rounded-lg border border-gray-300 p-2 focus:ring focus:ring-indigo-200 focus:outline-none"
-                  >
-                    <option value="">Select an opton</option>
-                    <option value="cash">Cash</option>
-                    <option value="card">Card</option>
-                    <option value="mobile">Mobile</option>
-                    <option value="due">Due</option>
-                  </select>
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-6">
+                    <div className="flex gap-4 sm:gap-6">
+                      <img
+                        src={order.imageUrl}
+                        alt={order.name}
+                        className="h-20 w-20 sm:h-24 sm:w-24 rounded-md object-cover flex-shrink-0"
+                      />
+                      <div className="space-y-2">
+                        <h3 className="text-base sm:text-lg font-medium text-gray-900 line-clamp-2">
+                          {order.name}
+                        </h3>
+                        <span className="inline-flex rounded-full bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700">
+                          {order.edited ? "Customized" : "Regular"}
+                        </span>
+                        <p className="text-base sm:text-lg font-medium text-gray-900">
+                          ৳{order.price * order.quantity}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-end sm:justify-center gap-4 mt-4 sm:mt-0">
+                      <div className="flex items-center gap-3">
+                        {/* Decrease quantity button */}
+                        <button
+                          onClick={() => minus(index)}
+                          className="rounded-full bg-gray-100 p-2 text-gray-600 hover:bg-gray-200 transition-colors"
+                        >
+                          <span className="sr-only">Decrease quantity</span>
+                          <svg
+                            className="h-4 w-4 sm:h-5 sm:w-5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M20 12H4"
+                            />
+                          </svg>
+                        </button>
+                        <span className="text-gray-900 w-8 text-center">
+                          {order.quantity}
+                        </span>
+                        {/* Increase quantity button */}
+                        <button
+                          onClick={() => add(index)}
+                          className="rounded-full bg-gray-100 p-2 text-gray-600 hover:bg-gray-200 transition-colors"
+                        >
+                          <span className="sr-only">Increase quantity</span>
+                          <svg
+                            className="h-4 w-4 sm:h-5 sm:w-5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M12 6v12m6-6H6"
+                            />
+                          </svg>
+                        </button>
+                      </div>
+                      {/* Remove item button */}
+                      <button
+                        onClick={() => deleteItem(index)}
+                        className="rounded-full bg-red-50 p-2 text-red-600 hover:bg-red-100 transition-colors ml-2"
+                      >
+                        <span className="sr-only">Remove item</span>
+                        <svg
+                          className="h-4 w-4 sm:h-5 sm:w-5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            {/* Order summary section */}
+            <div>
+              <div>
+                <div className="flex-none max-w-md bg-white rounded-lg shadow-lg p-6 space-y-4">
+                  <h2 className="text-xl font-semibold text-gray-800 text-center">
+                    Order Summary
+                  </h2>
+                  <div className="flex justify-between items-center">
+                    <p className="text-gray-700">Net Total:</p>
+                    <p className="font-bold text-lg text-indigo-600">
+                      {netTotal}৳
+                    </p>
+                  </div>
+                  <hr className="border-gray-300" />
+                  <div className="flex justify-between items-center">
+                    <p className="text-gray-700">VAT - 5.00%:</p>
+                    <p className="text-gray-600">
+                      {(netTotal * 0.05).toFixed(2)}৳
+                    </p>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <p className="text-gray-700">Auto Round:</p>
+                    <p className="text-gray-600">
+                      {Math.round(netTotal * 0.05)}৳
+                    </p>
+                  </div>
+                  <hr className="border-gray-300" />
+                  <hr className="border-gray-300" />
+                  <div className="flex justify-between items-center">
+                    <p className="text-gray-700">Discount -</p>
+                    <p className="text-gray-600">
+                      {discount}%- {netTotal * (discount / 100)}৳
+                    </p>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <p className="text-gray-700">Auto Round:</p>
+                    <p className="text-gray-600">
+                      {Math.round(netTotal * (discount / 100))}৳
+                    </p>
+                  </div>
+                  <hr className="border-gray-300" />
+                  <div className="flex justify-between items-center font-bold">
+                    <p className="text-gray-700">Gross Total:</p>
+                    <p className="text-lg text-[#1c1d22]">
+                      {netTotal +
+                        Math.round(netTotal * 0.05) -
+                        Math.round(netTotal * (discount / 100))}
+                      ৳
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* Extras section */}
+            <div className="mx-auto px-4 sm:px-6 lg:px-8 mt-8 max-h-[500px] overflow-auto">
+              <div className="grid grid-cols-1 gap-6 sm:gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-1">
+                {extras.length >= 0 ? (
+                  extras.map((item) => (
+                    <ExtraItems
+                      getCount={setCount}
+                      key={item.urlName}
+                      item={item}
+                      category={item.category}
+                    />
+                  ))
                 ) : (
-                  <input
-                    type={field === "phoneNumber" ? "tel" : "text"} // Conditional input type
-                    name={field}
-                    id={field}
-                    value={formData[field]}
-                    onChange={handleChange}
-                    className="w-full rounded-lg border border-gray-300 p-2 focus:ring focus:ring-indigo-200 focus:outline-none"
-                  />
+                  <p>Loading Items...</p>
                 )}
               </div>
-            ))}
-          </div>
-
-          <button
-            type="submit"
-            className="mt-6 w-full bg-[#313b44] text-white py-2 px-4 rounded-lg hover:bg-[#313b50] hover:shadow-indigo-600/25 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 active:scale-95 transition-all duration-200"
-          >
-            Place Order
-          </button>
-        </form>
-      </div>
-
-      {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md relative">
-            <button
-              className="absolute top-2 right-2 text-gray-600 hover:text-gray-900"
-              onClick={() => setShowModal(false)}
-            >
-              <svg
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
-            <h2 className="text-xl font-semibold mb-4">Confirm Order</h2>
-            <p className="mb-4">Are you sure you want to place this order?</p>
-            <div className="flex justify-end space-x-4">
-              <button
-                className="bg-gray-200 text-gray-800 py-2 px-4 rounded-lg hover:bg-gray-300"
-                onClick={() => setShowModal(false)}
-              >
-                Cancel
-              </button>
-              <button
-                className="bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700"
-                onClick={confirmOrder}
-              >
-                Confirm
-              </button>
             </div>
           </div>
+          {/* Order information form */}
+          <form
+            onSubmit={handleSubmit}
+            className="mx-auto mt-8 max-w-3xl rounded-xl bg-white p-8 shadow-lg mb-8"
+          >
+            <div className="grid gap-8 md:grid-cols-2">
+              {[
+                "phoneNumber", // Phone number input field
+                "type", // Order type input field
+                "table", // Table number input field
+                "discount", // Discount input field
+                "bill", // Bill payment type input field
+              ].map((field) => (
+                <div key={field} className="relative">
+                  <label
+                    htmlFor={field}
+                    className="absolute -top-2 left-2 bg-white px-1 text-xs font-medium text-gray-600"
+                  >
+                    {field.charAt(0).toUpperCase() + field.slice(1)}
+                  </label>
+
+                  {field === "type" ? (
+                    <select
+                      name={field}
+                      id={field}
+                      value={formData[field]}
+                      onChange={handleChange}
+                      className="w-full rounded-lg border border-gray-300 p-2 focus:ring focus:ring-indigo-200 focus:outline-none"
+                    >
+                      <option value="">Select an opton</option>
+                      <option value="table">Table</option>
+                      <option value="takeAway">Take Away</option>
+                      <option value="online">Online</option>
+                    </select>
+                  ) : field === "table" && formData.type === "table" ? (
+                    <select
+                      name={field}
+                      id={field}
+                      value={formData[field]}
+                      onChange={handleChange}
+                      className="w-full rounded-lg border border-gray-300 p-2 focus:ring focus:ring-indigo-200 focus:outline-none"
+                    >
+                      <optgroup label="Front">
+                        <option value="front1">Front 1</option>
+                        <option value="front2">Front 2</option>
+                        <option value="front3">Front 3</option>
+                      </optgroup>
+                      <optgroup label="Back">
+                        <option value="back1">Back 1</option>
+                        <option value="back2">Back 2</option>
+                        <option value="back3">Back 3</option>
+                      </optgroup>
+                      <optgroup label="Smoke">
+                        <option value="smoke1">Smoke 1</option>
+                        <option value="smoke2">Smoke 2</option>
+                        <option value="smoke3">Smoke 3</option>
+                      </optgroup>
+                    </select>
+                  ) : field === "bill" ? (
+                    <select
+                      name={field}
+                      id={field}
+                      value={formData[field]}
+                      onChange={handleChange}
+                      className="w-full rounded-lg border border-gray-300 p-2 focus:ring focus:ring-indigo-200 focus:outline-none"
+                    >
+                      <option value="">Select an opton</option>
+                      <option value="cash">Cash</option>
+                      <option value="card">Card</option>
+                      <option value="mobile">Mobile</option>
+                      <option value="due">Due</option>
+                    </select>
+                  ) : (
+                    <input
+                      type={field === "phoneNumber" ? "tel" : "text"} // Conditional input type
+                      name={field}
+                      id={field}
+                      value={formData[field]}
+                      onChange={handleChange}
+                      className="w-full rounded-lg border border-gray-300 p-2 focus:ring focus:ring-indigo-200 focus:outline-none"
+                    />
+                  )}
+                </div>
+              ))}
+            </div>
+
+            <button
+              type="submit"
+              className="mt-6 w-full bg-[#313b44] text-white py-2 px-4 rounded-lg hover:bg-[#313b50] hover:shadow-indigo-600/25 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 active:scale-95 transition-all duration-200"
+            >
+              Place Order
+            </button>
+          </form>
         </div>
-      )}
+
+        {showModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+            <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md relative">
+              <button
+                className="absolute top-2 right-2 text-gray-600 hover:text-gray-900"
+                onClick={() => setShowModal(false)}
+              >
+                <svg
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+              <h2 className="text-xl font-semibold mb-4">Confirm Order</h2>
+              <p className="mb-4">Are you sure you want to place this order?</p>
+              <div className="flex justify-end space-x-4">
+                <button
+                  className="bg-gray-200 text-gray-800 py-2 px-4 rounded-lg hover:bg-gray-300"
+                  onClick={() => setShowModal(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700"
+                  onClick={confirmOrder}
+                >
+                  Confirm
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

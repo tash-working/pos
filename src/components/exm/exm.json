@@ -1,0 +1,174 @@
+[
+    {
+      "_id": "672b48bd75e3de3391ee4b9c",
+      "menu": [
+        {
+          "category": "Burgers",
+          "items": [
+            {
+              "name": "Mini Chicken Burger",
+              "price": 70,
+              "size": [
+                {
+                  "size": "Regular",
+                  "price": 70
+                }
+              ],
+              "selectedSize": "Regular",
+              "imageUrl": "https://aseasonedgreeting.com/wp-content/uploads/2022/04/BBQ-Chicken-Burgers.jpg"
+            },
+            {
+              "name": "Chicken Burger",
+              "price": 150,
+              "size": [
+                {
+                  "size": "Regular",
+                  "price": 150
+                }
+              ],
+              "selectedSize": "Regular",
+              "imageUrl": "https://www.telegraph.co.uk/content/dam/recipes/2024/05/29/TELEMMGLPICT000379804542_17169974204270_trans_NvBQzQNjv4BqilvcnqkpSUowfgpp2LOkVEWy_sGK6oioMu5BzggyGUY.jpeg?imwidth=680"
+            },
+            {
+              "name": "Beef Burger",
+              "price": 200,
+              "size": [
+                {
+                  "size": "Regular",
+                  "price": 200
+                }
+              ],
+              "selectedSize": "Regular",
+              "imageUrl": "https://www.unileverfoodsolutions.co.za/dam/global-ufs/mcos/SOUTH-AFRICA/calcmenu/recipes/ZA-recipes/general/beef-burger/main-header.jpg"
+            }
+          ]
+        },
+        {
+          "category": "Chicken",
+          "items": [
+            {
+              "name": "Chicken Fajita",
+              "price": 130,
+              "size": [
+                {
+                  "size": "Regular",
+                  "price": 130
+                }
+              ],
+              "selectedSize": "Regular",
+              "imageUrl": "https://www.recipetineats.com/wp-content/uploads/2017/08/Chicken-Fajitas-1.jpg"
+            },
+            {
+              "name": "Chicken Momo",
+              "price": 100,
+              "size": [
+                {
+                  "size": "5 pieces",
+                  "price": 100
+                }
+              ],
+              "selectedSize": "5 pieces",
+              "imageUrl": "https://www.indianhealthyrecipes.com/wp-content/uploads/2016/11/chicken-momos-recipe-1.jpg"
+            },
+            {
+              "name": "Chicken Shawarma",
+              "price": 150,
+              "size": [
+                {
+                  "size": "Regular",
+                  "price": 150
+                }
+              ],
+              "selectedSize": "Regular",
+              "imageUrl": "https://www.themediterraneandish.com/wp-content/uploads/2015/10/chicken-shawarma-recipe-5.jpg"
+            },
+            {
+              "name": "Meat Box (Small)",
+              "price": 100,
+              "size": [
+                {
+                  "size": "Small",
+                  "price": 100
+                }
+              ],
+              "selectedSize": "Small",
+              "imageUrl": "https://www.kfc.com.my/static/1678274797/images/full/zinger-double-down-combo.jpg"
+            },
+            {
+              "name": "Meat Box (Large)",
+              "price": 160,
+              "size": [
+                {
+                  "size": "Large",
+                  "price": 160
+                }
+              ],
+              "selectedSize": "Large",
+              "imageUrl": "https://www.kfc.com.my/static/1678274797/images/full/zinger-double-down-combo.jpg"
+            },
+            {
+              "name": "Tandoori Chicken",
+              "price": 150,
+              "size": [
+                {
+                  "size": "Regular",
+                  "price": 150
+                }
+              ],
+              "selectedSize": "Regular",
+              "imageUrl": "https://www.indianhealthyrecipes.com/wp-content/uploads/2014/11/tandoori-chicken-recipe-1.jpg"
+            },
+            {
+              "name": "Chicken Fry (1 piece)",
+              "price": 120,
+              "size": [
+                {
+                  "size": "1 piece",
+                  "price": 120
+                }
+              ],
+              "selectedSize": "1 piece",
+              "imageUrl": "https://www.seriouseats.com/thmb/w86NeR_gqQk5_yE7qDT26gd_6oA=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/20210728-korean-fried-chicken-vicky-wasik-seriouseats-10-1500x1125-5c1a5902b45144b2a8626c715552384a.jpg"
+            },
+            {
+              "name": "Chicken Spicy Fry (1 piece)",
+              "price": 100,
+              "size": [
+                {
+                  "size": "1 piece",
+                  "price": 100
+                }
+              ],
+              "selectedSize": "1 piece",
+              "imageUrl": "https://www.indianhealthyrecipes.com/wp-content/uploads/2019/07/kfc-style-chicken-recipe-1.jpg"
+            },
+            {
+              "name": "Chicken Popcorn (Small)",
+              "price": 120,
+              "size": [
+                {
+                  "size": "Small",
+                  "price": 120
+                }
+              ],
+              "selectedSize": "Small",
+              "imageUrl": "https://www.kfc.com.my/static/1678274797/images/full/popcorn-chicken-combo.jpg"
+            },
+            {
+              "name": "Chicken Popcorn (Large)",
+              "price": 160,
+              "size": [
+                {
+                  "size": "Large",
+                  "price": 160
+                }
+              ],
+              "selectedSize": "Large",
+              "imageUrl": "https://www.kfc.com.my/static/1678274797/images/full/popcorn-chicken-combo.jpg"
+            }
+          ]
+        }
+      ]
+     
+    }
+]
